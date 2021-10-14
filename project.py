@@ -4,10 +4,10 @@ import random
 
 class Grass:
     def __init__(self): # 생성자
-        self.image = load_image('grass.png')
+        self.image = load_image('background.png')
 
     def draw(self):
-        self.image.draw(400, 30)
+        self.image.draw(960, 540)
 
 class Boy:
     def __init__(self):
@@ -34,13 +34,12 @@ def handle_events():
 
 # initialization code
 
-open_canvas()
+open_canvas(1920, 1080)
 
 grass = Grass()
 # boy = Boy()
 
 # team
-team = [ Boy() for i in range(11) ]
 
 running = True
 
@@ -53,14 +52,10 @@ while running:
     handle_events() # 키 입력 받아들이는 처리..
 
     # Game logic
-    for boy in team:
-        boy.update() # 소년의 상호작용
 
     # Game drawing
     clear_canvas()
     grass.draw()
-    for boy in team:
-        boy.draw()
 
     update_canvas()
 
