@@ -2,33 +2,62 @@ from pico2d import *
 import random
 # Game object class here
 
-BOTTOM = 400
+BOTTOM = 240
 
-class Grass:
+class Background:
     def __init__(self): # 생성자
         self.image = load_image('background.png')
 
     def draw(self):
         self.image.draw(960, 540)
 
-class Mario:
+class Tiles:
+    def __init__(self):
+        self.image = load_image('tiles_001.png')
+        self.x = 300
+        self.y = 200
 
+    def draw(self):
+        k = 0
+        for i in range(23):
+            self.image.clip_draw(0, 10, 95, 100, 0 + k, self.y - 50 )
+            k += 90
+
+class Tiles_bottom:
+    def __init__(self):
+        self.image = load_image('tiles_007.png')
+
+    def draw(self):
+        k = 0
+        # for i in range(65):
+        #     self.image.draw(k, y)
+        #     k += 30
+
+        for i in range(65):
+             self.image.draw(k, 160)
+             self.image.draw(k, 130)
+             self.image.draw(k, 100)
+             self.image.draw(k, 70)
+             self.image.draw(k, 40)
+             k += 30
+
+class Mario:
     def __init__(self):
         self.image = load_image('mario_sheet.png')
         self.x = 300
-        self.y = 400
+        self.y = 240
         self.dir = 0
         self.frame = 0
         self.posx = 350
         self.posy = 90
         self.isJump = 0
-        self.v = 6
+        self.v = 7
         self.m = 2
         self.f = 0
 
     def update(self):
         self.frame = (self.frame + 1 ) % 4
-        self.x += 5 * self.dir
+        self.x += 7 * self.dir
         if self.isJump > 0:
             if self.v > 0:
                 # 속도가 0보다 클때는 위로 올라감
@@ -41,9 +70,7 @@ class Mario:
             self.v -= 1
             if self.y == BOTTOM:
                 self.isJump = 0
-                self.v = 6
-
-
+                self.v = 7
 
     def draw(self):
         self.image.clip_draw(self.posx + self.frame * 45 , self.posy, 40, 90, self.x, self.y)          # 350, 400, 450, 500
@@ -87,7 +114,9 @@ def handle_events():
 
 open_canvas(1920, 1080)
 
-grass = Grass()
+background = Background()
+tiles = Tiles()
+tiles_bottom = Tiles_bottom()
 mario = Mario()
 running = True
 
@@ -104,8 +133,12 @@ while running:
 
     # Game drawing
     clear_canvas()
-    grass.draw()
+    background.draw()
     mario.draw()
+    tiles.draw()
+    tiles_bottom.draw()
+
+
 
     update_canvas()
 
