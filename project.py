@@ -30,8 +30,9 @@ class Mario:
         self.x = 300
         self.y = 400
         self.dir = 0
-        self.frame = 350
-        self.width = 40
+        self.frame = 0
+        self.posx = 350
+        self.posy = 90
 
     def update(self):
         self.frame = (self.frame + 1 ) % 4
@@ -39,7 +40,7 @@ class Mario:
 
 
     def draw(self):
-        self.image.clip_draw(350 + self.frame * 45 , 90, 40, 90, self.x, self.y)          # 350, 400, 450, 500
+        self.image.clip_draw(self.posx + self.frame * 45 , self.posy, 40, 90, self.x, self.y)          # 350, 400, 450, 500
 
 def handle_events():
     global running
@@ -53,14 +54,23 @@ def handle_events():
         elif event.type == SDL_KEYDOWN:
             if event.key == SDLK_RIGHT:
                 mario.dir += 1
+                mario.posx = 350
+                mario.posy = 90
+                #mario.frame = (mario.frame + 1) % 4
             elif event.key ==SDLK_LEFT:
                 mario.dir -= 1
+                mario.posx = 620
+                mario.posy = 0
+                #mario.frame = (mario.frame + 1) % 4
+
 
         elif event.type == SDL_KEYUP:
             if event.key ==SDLK_RIGHT:
                 mario.dir -= 1
+                mario.frame = 0
             elif event.key ==SDLK_LEFT:
                 mario.dir += 1
+                mario.frame = 0
 
 
 # initialization code
