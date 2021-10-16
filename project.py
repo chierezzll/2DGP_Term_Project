@@ -2,26 +2,14 @@ from pico2d import *
 import random
 # Game object class here
 
+BOTTOM = 400
+
 class Grass:
     def __init__(self): # 생성자
         self.image = load_image('background.png')
 
     def draw(self):
         self.image.draw(960, 540)
-
-class Boy:
-    def __init__(self):
-        self.image = load_image('run_animation.png')
-        self.x = random.randint(100, 700)
-        self.y = 90
-        self.frame = random.randint(0, 7)
-
-    def update(self): # 소년의 행위 구현
-        self.x += 5 # 속성값을 바꿈으로써, 행위(오른쪽으로 이동) 구현
-        self.frame = (self.frame + 1) % 8
-
-    def draw(self):
-        self.image.clip_draw(self.frame* 100, 0, 100, 100, self.x, self.y)
 
 class Mario:
 
@@ -33,14 +21,36 @@ class Mario:
         self.frame = 0
         self.posx = 350
         self.posy = 90
+        self.isJump = 0
+        self.v = 6
+        self.m = 2
+        self.f = 0
 
     def update(self):
         self.frame = (self.frame + 1 ) % 4
         self.x += 5 * self.dir
+        if self.isJump > 0:
+            if self.v > 0:
+                # 속도가 0보다 클때는 위로 올라감
+                self.f = (0.5 * self.m * (self.v * self.v))
+            else:
+                # 속도가 0보다 작을때는 아래로 내려감
+                self.f = -(0.5 * self.m * (self.v * self.v))
+
+            self.y += self.f
+            self.v -= 1
+            if self.y == BOTTOM:
+                self.isJump = 0
+                self.v = 6
+
 
 
     def draw(self):
         self.image.clip_draw(self.posx + self.frame * 45 , self.posy, 40, 90, self.x, self.y)          # 350, 400, 450, 500
+
+    def jump(self, j):
+        self.isJump = j
+
 
 def handle_events():
     global running
@@ -56,12 +66,12 @@ def handle_events():
                 mario.dir += 1
                 mario.posx = 350
                 mario.posy = 90
-                #mario.frame = (mario.frame + 1) % 4
             elif event.key ==SDLK_LEFT:
                 mario.dir -= 1
                 mario.posx = 620
                 mario.posy = 0
-                #mario.frame = (mario.frame + 1) % 4
+            elif event.key == SDLK_SPACE:
+                mario.isJump = 1
 
 
         elif event.type == SDL_KEYUP:
