@@ -38,6 +38,18 @@ class Tiles_bottom:
              self.image.draw(k, 40)
              k += 30
 
+class Block:
+    def __init__(self):
+        self.image = load_image('OverWorld.png')
+        self.x = 550
+        self.y = 330
+
+    def draw(self):
+        k = 0
+        for i in range(5):
+            self.image.clip_draw(46, 120, 20, 30, self.x + k, self.y)
+            k += 20
+
 class Monster_Gumba:
     def __init__(self):
         self.image = load_image('Enemies.png')
@@ -64,13 +76,13 @@ class Coins:
     def draw(self):
         k = 0
         for i in range(3):
-            self.image.clip_draw(0 + self.frame * 15, 15, 15, 18, self.x + k, self.y)
+            self.image.clip_draw(0 + self.frame * 15, 16, 15, 16, self.x + k, self.y)
             k += 30
 
 class Mario:
     def __init__(self):
         self.image = load_image('mario_sheet.png')
-        self.x = 300
+        self.x = 200
         self.y = 240
         self.dir = 0
         self.frame = 0
@@ -145,6 +157,7 @@ tiles = Tiles()
 tiles_bottom = Tiles_bottom()
 mario = Mario()
 coins = Coins(500, 300)
+block = Block()
 gumba = Monster_Gumba()
 running = True
 
@@ -166,6 +179,7 @@ while running:
     background.draw()
     mario.draw()
     gumba.draw()
+    block.draw()
     tiles.draw()
     tiles_bottom.draw()
     coins.draw()
