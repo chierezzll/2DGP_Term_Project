@@ -47,7 +47,7 @@ class Block:
     def draw(self):
         k = 0
         for i in range(7):
-            self.image.clip_draw(46, 110, 20, 30, self.x + k, self.y)
+            self.image.clip_draw(46, 110, 20, 31, self.x + k, self.y)
             k += 20
 
 class Item_Block():
@@ -57,17 +57,23 @@ class Item_Block():
         self.y = 310
 
     def draw(self):
-        self.image.clip_draw(63, 110, 20, 30, self.x, self.y)
+        self.image.clip_draw(64, 110, 20, 31, self.x, self.y)
 
 class Monster_Gumba:
     def __init__(self):
         self.image = load_image('Enemies.png')
-        self.x = 500
-        self.y = 240
+        self.x = 600
+        self.y = 215
+        self.dir = 1
         self.frame = 0
 
     def update(self):
         self.frame = (self.frame + 1) % 2
+        self.x += 3 * self.dir
+        if self.x >= 700:
+            self.dir = -1
+        elif self.x <= 600:
+            self.dir = 1
 
     def draw(self):
         self.image.clip_draw(0 + self.frame * 30, 0, 30, 30, self.x, self.y)
