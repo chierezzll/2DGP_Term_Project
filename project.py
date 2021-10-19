@@ -29,9 +29,6 @@ class Tiles_bottom:
 
     def draw(self):
         k = 0
-        # for i in range(65):
-        #     self.image.draw(k, y)
-        #     k += 30
 
         for i in range(65):
              self.image.draw(k, 160)
@@ -40,6 +37,22 @@ class Tiles_bottom:
              self.image.draw(k, 70)
              self.image.draw(k, 40)
              k += 30
+
+class Coins:
+    def __init__(self, x, y):
+        self.image = load_image('items.png')
+        self.frame = 0
+        self.x = x
+        self.y = y
+
+    def update(self):
+        self.frame = (self.frame + 1) % 4
+
+    def draw(self):
+        k = 0
+        for i in range(3):
+            self.image.clip_draw(0 + self.frame * 15, 15, 15, 18, self.x + k, self.y)
+            k += 30
 
 class Mario:
     def __init__(self):
@@ -118,6 +131,7 @@ background = Background()
 tiles = Tiles()
 tiles_bottom = Tiles_bottom()
 mario = Mario()
+coins = Coins(500, 300)
 running = True
 
 
@@ -130,6 +144,7 @@ while running:
 
     # Game logic
     mario.update()
+    coins.update()
 
     # Game drawing
     clear_canvas()
@@ -137,12 +152,13 @@ while running:
     mario.draw()
     tiles.draw()
     tiles_bottom.draw()
+    coins.draw()
 
 
 
     update_canvas()
 
-    delay(0.05)
+    delay(0.06)
 
 # finalization code
 
