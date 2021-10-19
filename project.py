@@ -38,6 +38,19 @@ class Tiles_bottom:
              self.image.draw(k, 40)
              k += 30
 
+class Monster_Gumba:
+    def __init__(self):
+        self.image = load_image('Enemies.png')
+        self.x = 500
+        self.y = 240
+        self.frame = 0
+
+    def update(self):
+        self.frame = (self.frame + 1) % 2
+
+    def draw(self):
+        self.image.clip_draw(0 + self.frame * 30, 0, 30, 30, self.x, self.y)
+
 class Coins:
     def __init__(self, x, y):
         self.image = load_image('items.png')
@@ -132,6 +145,7 @@ tiles = Tiles()
 tiles_bottom = Tiles_bottom()
 mario = Mario()
 coins = Coins(500, 300)
+gumba = Monster_Gumba()
 running = True
 
 
@@ -145,11 +159,13 @@ while running:
     # Game logic
     mario.update()
     coins.update()
+    gumba.update()
 
     # Game drawing
     clear_canvas()
     background.draw()
     mario.draw()
+    gumba.draw()
     tiles.draw()
     tiles_bottom.draw()
     coins.draw()
