@@ -318,10 +318,11 @@ def update():
     coins2.update()
     gumba.update()
     gumba2.update()
+    fire.update()
     if mario.x > 1920:
         game_framework.change_state(main_stage1_2)
 
-    fire.update()
+
 
 def draw():
     clear_canvas()
