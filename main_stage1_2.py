@@ -40,33 +40,38 @@ class Tiles:
     def draw(self):
         k = 0
         for i in range(23):
-            self.image.clip_draw(0, 10, 95, 100, 0 + k, self.y - 50 )
+            if k < 300 or 400 < k < 950 or k > 1050:
+                self.image.clip_draw(0, 10, 95, 100, 0 + k, self.y - 50 )
             k += 90
 
 class Tiles_bottom:
     def __init__(self):
         self.image = load_image('tiles_007.png')
+        self.x = 0
+        self.y = 160
 
     def draw(self):
         k = 0
 
         for i in range(65):
-             self.image.draw(k, 160)
-             self.image.draw(k, 130)
-             self.image.draw(k, 100)
-             self.image.draw(k, 70)
-             self.image.draw(k, 40)
-             k += 30
+            if k < 320 or 400 < k < 950 or k > 1040:
+                 self.image.draw(k, 160)
+                 self.image.draw(k, 130)
+                 self.image.draw(k, 100)
+                 self.image.draw(k, 70)
+                 self.image.draw(k, 40)
+            k += 30
 
 class Block:
-    def __init__(self, x, y):
+    def __init__(self, x, y, l):
         self.image = load_image('OverWorld.png')
         self.x = x
         self.y = y
+        self.l = l
 
     def draw(self):
         k = 0
-        for i in range(7):
+        for i in range(self.l):
             self.image.clip_draw(46, 110, 20, 31, self.x + k, self.y)
             k += 20
 
@@ -80,37 +85,40 @@ class Item_Block():
         self.image.clip_draw(64, 110, 20, 31, self.x, self.y)
 
 class Monster_Gumba:
-    def __init__(self):
+    def __init__(self, x, y, d):
         self.image = load_image('Enemies.png')
-        self.x = 600
-        self.y = 215
+        self.x = x
+        self.y = y
+        self.tx = x
+        self.d = d  # 굼바 이동범위
         self.dir = 1
         self.frame = 0
 
     def update(self):
         self.frame = (self.frame + 1) % 2
         self.x += 3 * self.dir
-        if self.x >= 700:
+        if self.x >= self.tx + self.d:
             self.dir = -1
-        elif self.x <= 600:
+        elif self.x <= self.tx - self.d:
             self.dir = 1
 
     def draw(self):
         self.image.clip_draw(0 + self.frame * 30, 0, 30, 30, self.x, self.y)
 
 class Coins:
-    def __init__(self, x, y):
+    def __init__(self, x, y, l):
         self.image = load_image('items.png')
         self.frame = 0
         self.x = x
         self.y = y
+        self.l = l
 
     def update(self):
         self.frame = (self.frame + 1) % 4
 
     def draw(self):
         k = 0
-        for i in range(3):
+        for i in range(self.l):
             self.image.clip_draw(0 + self.frame * 15, 16, 15, 16, self.x + k, self.y)
             k += 30
 
@@ -184,31 +192,43 @@ def handle_events():
                 mario.frame = 0
 
 def enter():
-    global background, background2, tiles, tiles_bottom, mario, coins, item_block2, item_block1, block1, gumba
+    global background, tiles, tiles_bottom, mario, coins, item_block2, item_block1, item_block3, block1, block2, block3, block4, block5, gumba
+    global gumba2
     background = Background(960, 540)
-    background2 = Background(960 + 1820, 540)
     tiles = Tiles()
     tiles_bottom = Tiles_bottom()
     mario = Mario()
-    coins = Coins(580, 360)
-    item_block1 = Item_Block(450, 310)
-    item_block2 = Item_Block(620, 430)
-    block1 = Block(700, 310)
-    gumba = Monster_Gumba()
+    coins = Coins(850, 500, 4)
+    item_block1 = Item_Block(225, 310)
+    item_block2 = Item_Block(1131, 450)
+    item_block3 = Item_Block(1320, 310)
+    block1 = Block(700, 310, 4)
+    block2 = Block(820, 450, 8)
+    block3 = Block(1050, 450, 4)
+    block4 = Block(1131, 310, 1)
+    block5 = Block(1300, 310, 1)
+    gumba = Monster_Gumba(700, 215, 100)
+    gumba2 = Monster_Gumba(900, 480, 50)
     mario.dir += 1
 
 def exit():
-    global background, background2, tiles, tiles_bottom, mario, coins, item_block2, item_block1, block1, gumba
+    global background, tiles, tiles_bottom, mario, coins, item_block2, item_block1, item_block3, block1, block2, block3, block4, block5, gumba
+    global gumba2
     del(background)
-    del(background2)
     del(tiles)
     del(tiles_bottom)
     del(mario)
     del(coins)
     del(item_block1)
     del(item_block2)
+    del(item_block3)
     del(block1)
+    del(block2)
+    del(block3)
+    del(block4)
+    del(block5)
     del(gumba)
+    del(gumba2)
 
 def pause():
     pass
@@ -220,15 +240,22 @@ def update():
     mario.update()
     coins.update()
     gumba.update()
+    gumba2.update()
 
 def draw():
     clear_canvas()
     background.draw()
     mario.draw()
     gumba.draw()
+    gumba2.draw()
     block1.draw()
+    block2.draw()
+    block3.draw()
+    block4.draw()
+    block5.draw()
     item_block1.draw()
     item_block2.draw()
+    item_block3.draw()
     tiles.draw()
     tiles_bottom.draw()
     coins.draw()

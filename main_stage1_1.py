@@ -155,7 +155,7 @@ class Mario:
 
     def update(self):
         self.frame = (self.frame + 1 ) % 4
-        self.x += 15 * self.dir     #마리오 이동속도
+        self.x += 45 * self.dir     #마리오 이동속도
         if self.isJump > 0:
             if self.v > 0:
                 # 속도가 0보다 클때는 위로 올라감
@@ -186,6 +186,8 @@ def handle_events():
             game_framework.quit()
         elif event.type == SDL_KEYDOWN and event.key == SDLK_ESCAPE:
             game_framework.change_state(title_state)
+        elif event.type == SDL_KEYDOWN and event.key == SDLK_INSERT:
+            game_framework.change_state(main_stage1_2)
         elif event.type == SDL_KEYDOWN:
             if event.key == SDLK_RIGHT:
                 mario.dir += 1
