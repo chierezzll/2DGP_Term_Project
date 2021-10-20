@@ -78,14 +78,19 @@ class Pipe:
         self.l = l
 
     def draw(self):
+        k = 0
         if self.l == 0: # pipe의 y가 225
             self.image.clip_draw(84, 97, 52, 50, self.x, self.y)
         elif self.l == 1:       # pipe의 y가 285
             self.image.clip_draw(84, 97, 52, 50, self.x, self.y)
-            self.image.clip_draw(84, 97, 52, 15, self.x, self.y - 33)
-            self.image.clip_draw(84, 97, 52, 15, self.x, self.y - 33 - 15)
-            self.image.clip_draw(84, 97, 52, 15, self.x, self.y - 33 - 15 - 15)
-            self.image.clip_draw(84, 97, 52, 15, self.x, self.y - 33 - 15 - 15 - 15)
+            for i in range(4):
+                self.image.clip_draw(84, 97, 52, 15, self.x, self.y - 33 - k)
+                k += 15
+        elif self.l == 2:       ## pipe의 y가 330
+            self.image.clip_draw(84, 97, 52, 50, self.x, self.y)
+            for i in range(7):
+                self.image.clip_draw(84, 97, 52, 15, self.x, self.y - 33 - k)
+                k += 15
 
 class Item_Block():
     def __init__(self, x, y):
@@ -97,37 +102,39 @@ class Item_Block():
         self.image.clip_draw(64, 110, 20, 31, self.x, self.y)
 
 class Monster_Gumba:
-    def __init__(self):
+    def __init__(self, x ,y):
         self.image = load_image('Enemies.png')
-        self.x = 600
-        self.y = 215
+        self.x = x
+        self.y = y
+        self.tx = x
         self.dir = 1
         self.frame = 0
 
     def update(self):
         self.frame = (self.frame + 1) % 2
         self.x += 3 * self.dir
-        if self.x >= 700:
+        if self.x >= self.tx + 100:
             self.dir = -1
-        elif self.x <= 600:
+        elif self.x <= self.tx - 100:
             self.dir = 1
 
     def draw(self):
         self.image.clip_draw(0 + self.frame * 30, 0, 30, 30, self.x, self.y)
 
 class Coins:
-    def __init__(self, x, y):
+    def __init__(self, x, y, l):
         self.image = load_image('items.png')
         self.frame = 0
         self.x = x
         self.y = y
+        self.l = l
 
     def update(self):
         self.frame = (self.frame + 1) % 4
 
     def draw(self):
         k = 0
-        for i in range(3):
+        for i in range(self.l):
             self.image.clip_draw(0 + self.frame * 15, 16, 15, 16, self.x + k, self.y)
             k += 30
 
@@ -201,32 +208,38 @@ def handle_events():
                 mario.frame = 0
 
 def enter():
-    global background, tiles, tiles_bottom, mario, coins, item_block2, item_block1, block1, gumba, pipe, pipe2
+    global background, tiles, tiles_bottom, mario, coins, coins2, item_block2, item_block1, block1, gumba, gumba2, pipe, pipe2, pipe3
     background = Background(960, 540)
     tiles = Tiles()
     tiles_bottom = Tiles_bottom()
     mario = Mario()
-    coins = Coins(580, 360)
+    coins = Coins(580, 360, 3)
+    coins2 = Coins(1450, 235, 7)
     item_block1 = Item_Block(450, 310)
     item_block2 = Item_Block(620, 430)
     block1 = Block(550, 310)
-    gumba = Monster_Gumba()
+    gumba = Monster_Gumba(600, 215)
+    gumba2 = Monster_Gumba(1500, 215)
     pipe = Pipe(1000, 225, 0)
     pipe2 = Pipe(1350, 285, 1)
+    pipe3 = Pipe(1700, 330, 2)
 
 def exit():
-    global background, tiles, tiles_bottom, mario, coins, item_block2, item_block1, block1, gumba, pipe, pipe2
+    global background, tiles, tiles_bottom, mario, coins, coins2, item_block2, item_block1, block1, gumba, gumba2, pipe, pipe2, pipe3
     del(background)
     del(tiles)
     del(tiles_bottom)
     del(mario)
     del(coins)
+    del(coins2)
     del(item_block1)
     del(item_block2)
     del(block1)
     del(gumba)
+    del(gumba2)
     del(pipe)
     del(pipe2)
+    del(pipe3)
 
 def pause():
     pass
@@ -237,7 +250,9 @@ def resume():
 def update():
     mario.update()
     coins.update()
+    coins2.update()
     gumba.update()
+    gumba2.update()
     if mario.x > 1920:
         game_framework.change_state(main_stage1_2)
 
@@ -246,14 +261,17 @@ def draw():
     background.draw()
     mario.draw()
     gumba.draw()
+    gumba2.draw()
     block1.draw()
     item_block1.draw()
     item_block2.draw()
     tiles.draw()
     tiles_bottom.draw()
     coins.draw()
+    coins2.draw()
     pipe.draw()
     pipe2.draw()
+    pipe3.draw()
     update_canvas()
     delay(0.06)
 
