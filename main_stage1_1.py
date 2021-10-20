@@ -203,18 +203,23 @@ def handle_events():
                 mario.posy = 0
             elif event.key == SDLK_SPACE:
                 mario.isJump = 1
+            elif event.key == SDLK_DOWN:
+                mario.posx = 620
+
 
 
         elif event.type == SDL_KEYUP:
-            if event.key ==SDLK_RIGHT:
+            if event.key == SDLK_RIGHT:
                 mario.dir -= 1
                 mario.frame = 0
                 mario.posx = 350
-            elif event.key ==SDLK_LEFT:
+            elif event.key == SDLK_LEFT:
                 mario.dir += 1
                 mario.frame = 0
                 mario.posy = 0
                 mario.posx = 750
+            elif event.key == SDLK_DOWN:
+                mario.posx = 350
 
 def enter():
     global background, tiles, tiles_bottom, mario, coins, coins2, item_block2, item_block1, block1, gumba, gumba2, pipe, pipe2, pipe3
