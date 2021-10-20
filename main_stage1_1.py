@@ -181,10 +181,51 @@ class Mario:
     def jump(self, j):
         self.isJump = j
 
+class Fire:
+    global mario
+
+    def __init__(self):
+        self.image = load_image('fire.png')
+        self.frame = 0
+        self.x = 0
+        self.isSkill = 0
+        self.firebeg = 0
+        self.firebegy= 0
+
+    def update(self):
+        self.frame = (self.frame + 1) % 3
+        if self.isSkill > 0:
+            self.x += 45
+            if self.x > 300:
+                self.x = 0
+                self.isSkill = 0
+
+        elif self.isSkill < 0:
+            self.x -= 45
+            if self.x < -300:
+                self.x = 0
+                self.isSkill = 0
+
+        elif self.isSkill == 0:
+            self.firebeg = mario.x
+            self.firebegy = mario.y
+
+
+
+    def skill(self, j):
+        self.isSkill = j
+
+    def draw(self):
+        if self.isSkill > 0:
+            self.image.clip_draw(0 + self.frame * 17, 80, 15, 15, self.firebeg + self.x, self.firebegy, 25, 25)
+        elif self.isSkill < 0:
+            self.image.clip_draw(0 + self.frame * 17, 80, 15, 15, self.firebeg + self.x, self.firebegy, 25, 25)
 
 def handle_events():
     global running
     global mario
+    global fire
+
     events = get_events()
     for event in events:
         if event.type == SDL_QUIT:
@@ -193,17 +234,22 @@ def handle_events():
             game_framework.change_state(title_state)
         elif event.type == SDL_KEYDOWN and event.key == SDLK_INSERT:
             game_framework.change_state(main_stage1_2)
-        elif event.type == SDL_KEYDOWN:
+        elif event.type == SDL_KEYDOWN:     # 이동
             if event.key == SDLK_RIGHT:
                 mario.dir += 1
                 mario.posx = 350
                 mario.posy = 90
-            elif event.key ==SDLK_LEFT:
+            elif event.key == SDLK_LEFT:
                 mario.dir -= 1
                 mario.posx = 620
                 mario.posy = 0
             elif event.key == SDLK_SPACE:
                 mario.isJump = 1
+            elif event.key == SDLK_a:
+                if mario.dir != -1:
+                    fire.isSkill = 1
+                else:
+                    fire.isSkill = -1
             elif event.key == SDLK_DOWN:
                 mario.posx = 620
 
@@ -224,6 +270,7 @@ def handle_events():
 
 def enter():
     global background, tiles, tiles_bottom, mario, coins, coins2, item_block2, item_block1, block1, gumba, gumba2, pipe, pipe2, pipe3
+    global fire
     background = Background(960, 540)
     tiles = Tiles()
     tiles_bottom = Tiles_bottom()
@@ -235,12 +282,14 @@ def enter():
     block1 = Block(550, 310)
     gumba = Monster_Gumba(600, 215)
     gumba2 = Monster_Gumba(1500, 215)
+    fire = Fire()
     pipe = Pipe(1000, 225, 0)
     pipe2 = Pipe(1350, 285, 1)
     pipe3 = Pipe(1700, 330, 2)
 
 def exit():
     global background, tiles, tiles_bottom, mario, coins, coins2, item_block2, item_block1, block1, gumba, gumba2, pipe, pipe2, pipe3
+    global fire
     del(background)
     del(tiles)
     del(tiles_bottom)
@@ -252,6 +301,7 @@ def exit():
     del(block1)
     del(gumba)
     del(gumba2)
+    del(fire)
     del(pipe)
     del(pipe2)
     del(pipe3)
@@ -271,6 +321,8 @@ def update():
     if mario.x > 1920:
         game_framework.change_state(main_stage1_2)
 
+    fire.update()
+
 def draw():
     clear_canvas()
     background.draw()
@@ -287,6 +339,9 @@ def draw():
     pipe.draw()
     pipe2.draw()
     pipe3.draw()
+
+    fire.draw()
+
     update_canvas()
     delay(0.06)
 
