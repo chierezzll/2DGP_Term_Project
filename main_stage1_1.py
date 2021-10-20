@@ -19,7 +19,8 @@ class Background:
     global mario
 
     def __init__(self, x, y): # 생성자
-        self.image = load_image('background.png')
+        #self.image = load_image('background.png')
+        self.image = load_image('bg2.png')
         self.x = x
         self.y = y
 
