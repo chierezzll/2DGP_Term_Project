@@ -1,6 +1,6 @@
 import game_framework
 from pico2d import *
-import project
+import main_stage1_1
 
 
 name = "TitleState"
@@ -27,7 +27,7 @@ def handle_events():
                 game_framework.quit()
 
             elif (event.type, event.key) == (SDL_KEYDOWN, SDLK_SPACE):
-                game_framework.change_state(project)
+                game_framework.change_state(main_stage1_1)
 
 
 

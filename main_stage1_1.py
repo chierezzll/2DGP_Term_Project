@@ -11,7 +11,7 @@ import os
 
 BOTTOM = 240
 
-name = "project"
+name = "main_stage1_1"
 
 
 class Background:
@@ -182,23 +182,6 @@ def handle_events():
                 mario.dir += 1
                 mario.frame = 0
 
-
-# initialization code
-
-# open_canvas(1920, 1080)
-#
-# background = Background(960, 540)
-# background2 = Background(960 + 1820, 540)
-# tiles = Tiles()
-# tiles_bottom = Tiles_bottom()
-# mario = Mario()
-# coins = Coins(580, 360)
-# item_block1 = Item_Block(450, 310)
-# item_block2 = Item_Block(620, 430)
-# block1 = Block(550, 310)
-# gumba = Monster_Gumba()
-# running = True
-
 def enter():
     global background, background2, tiles, tiles_bottom, mario, coins, item_block2, item_block1, block1, gumba
     background = Background(960, 540)
@@ -228,11 +211,8 @@ def exit():
 def pause():
     pass
 
-
 def resume():
     pass
-
-# game main loop code
 
 def update():
     mario.update()
@@ -253,38 +233,4 @@ def draw():
     update_canvas()
     delay(0.06)
 
-# while running:
-#
-#     handle_events() # 키 입력 받아들이는 처리..
-
-    # Game logic
-
-    # mario.update()
-    # coins.update()
-    # gumba.update()
-
-    #background.update()
-    # if mario.x < 1920:
-    #     background2.draw()
-
-
-    # Game drawing
-    # clear_canvas()
-    # background.draw()
-    # mario.draw()
-    # gumba.draw()
-    # block1.draw()
-    # item_block1.draw()
-    # item_block2.draw()
-    # tiles.draw()
-    # tiles_bottom.draw()
-    # coins.draw()
-
-
-
-    # update_canvas()
-
-    # delay(0.06)
-
-# finalization code
 
