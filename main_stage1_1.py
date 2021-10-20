@@ -171,7 +171,11 @@ class Mario:
                 self.v = 7
 
     def draw(self):
-        self.image.clip_draw(self.posx + self.frame * 45 , self.posy, 40, 90, self.x, self.y)          # 350, 400, 450, 500
+        if mario.dir != 0:
+            self.image.clip_draw(self.posx + self.frame * 45 , self.posy, 40, 90, self.x, self.y)          # 350, 400, 450, 500
+        else:
+            self.image.clip_draw(self.posx , self.posy, 40, 90, self.x, self.y)
+
 
     def jump(self, j):
         self.isJump = j
@@ -205,9 +209,12 @@ def handle_events():
             if event.key ==SDLK_RIGHT:
                 mario.dir -= 1
                 mario.frame = 0
+                mario.posx = 350
             elif event.key ==SDLK_LEFT:
                 mario.dir += 1
                 mario.frame = 0
+                mario.posy = 0
+                mario.posx = 750
 
 def enter():
     global background, tiles, tiles_bottom, mario, coins, coins2, item_block2, item_block1, block1, gumba, gumba2, pipe, pipe2, pipe3
