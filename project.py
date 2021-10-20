@@ -1,15 +1,34 @@
 from pico2d import *
+import game_framework
 import random
+
+import game_framework
+import title_state
+import json
+import os
+
 # Game object class here
 
 BOTTOM = 240
 
+name = "project"
+
+
 class Background:
-    def __init__(self): # 생성자
+    global mario
+
+    def __init__(self, x, y): # 생성자
         self.image = load_image('background.png')
+        self.x = x
+        self.y = y
+
+    def update(self):
+        if mario.x > 600:
+            self.x = self.x - (mario.x - 600)
 
     def draw(self):
-        self.image.draw(960, 540)
+        self.image.clip_draw(0, 0, 1920, 1080, self.x, self.y)
+        self.image.clip_draw(0, 0, 1920, 1080, self.x + 1920, self.y)
 
 class Tiles:
     def __init__(self):
@@ -39,10 +58,10 @@ class Tiles_bottom:
              k += 30
 
 class Block:
-    def __init__(self):
+    def __init__(self, x, y):
         self.image = load_image('OverWorld.png')
-        self.x = 550
-        self.y = 310
+        self.x = x
+        self.y = y
 
     def draw(self):
         k = 0
@@ -53,8 +72,8 @@ class Block:
 class Item_Block():
     def __init__(self, x, y):
         self.image = load_image('OverWorld.png')
-        self.x = x    #450
-        self.y = y    #310
+        self.x = x
+        self.y = y
 
     def draw(self):
         self.image.clip_draw(64, 110, 20, 31, self.x, self.y)
@@ -95,6 +114,7 @@ class Coins:
             k += 30
 
 class Mario:
+    global item_block1
     def __init__(self):
         self.image = load_image('mario_sheet.png')
         self.x = 200
@@ -110,7 +130,7 @@ class Mario:
 
     def update(self):
         self.frame = (self.frame + 1 ) % 4
-        self.x += 7 * self.dir
+        self.x += 15 * self.dir     #마리오 이동속도
         if self.isJump > 0:
             if self.v > 0:
                 # 속도가 0보다 클때는 위로 올라감
@@ -138,9 +158,9 @@ def handle_events():
     events = get_events()
     for event in events:
         if event.type == SDL_QUIT:
-            running = False
+            game_framework.quit()
         elif event.type == SDL_KEYDOWN and event.key == SDLK_ESCAPE:
-            running = False
+            game_framework.change_state(title_state)
         elif event.type == SDL_KEYDOWN:
             if event.key == SDLK_RIGHT:
                 mario.dir += 1
@@ -165,49 +185,106 @@ def handle_events():
 
 # initialization code
 
-open_canvas(1920, 1080)
+# open_canvas(1920, 1080)
+#
+# background = Background(960, 540)
+# background2 = Background(960 + 1820, 540)
+# tiles = Tiles()
+# tiles_bottom = Tiles_bottom()
+# mario = Mario()
+# coins = Coins(580, 360)
+# item_block1 = Item_Block(450, 310)
+# item_block2 = Item_Block(620, 430)
+# block1 = Block(550, 310)
+# gumba = Monster_Gumba()
+# running = True
 
-background = Background()
-tiles = Tiles()
-tiles_bottom = Tiles_bottom()
-mario = Mario()
-coins = Coins(580, 360)
-item_block1 = Item_Block(450, 310)
-item_block2 = Item_Block(620, 430)
-block = Block()
-gumba = Monster_Gumba()
-running = True
+def enter():
+    global background, background2, tiles, tiles_bottom, mario, coins, item_block2, item_block1, block1, gumba
+    background = Background(960, 540)
+    background2 = Background(960 + 1820, 540)
+    tiles = Tiles()
+    tiles_bottom = Tiles_bottom()
+    mario = Mario()
+    coins = Coins(580, 360)
+    item_block1 = Item_Block(450, 310)
+    item_block2 = Item_Block(620, 430)
+    block1 = Block(550, 310)
+    gumba = Monster_Gumba()
+
+def exit():
+    global background, background2, tiles, tiles_bottom, mario, coins, item_block2, item_block1, block1, gumba
+    del(background)
+    del(background2)
+    del(tiles)
+    del(tiles_bottom)
+    del(mario)
+    del(coins)
+    del(item_block1)
+    del(item_block2)
+    del(block1)
+    del(gumba)
+
+def pause():
+    pass
 
 
+def resume():
+    pass
 
 # game main loop code
 
-while running:
-
-    handle_events() # 키 입력 받아들이는 처리..
-
-    # Game logic
+def update():
     mario.update()
     coins.update()
     gumba.update()
 
-    # Game drawing
+def draw():
     clear_canvas()
     background.draw()
     mario.draw()
     gumba.draw()
-    block.draw()
+    block1.draw()
     item_block1.draw()
     item_block2.draw()
     tiles.draw()
     tiles_bottom.draw()
     coins.draw()
-
-
-
     update_canvas()
-
     delay(0.06)
+
+# while running:
+#
+#     handle_events() # 키 입력 받아들이는 처리..
+
+    # Game logic
+
+    # mario.update()
+    # coins.update()
+    # gumba.update()
+
+    #background.update()
+    # if mario.x < 1920:
+    #     background2.draw()
+
+
+    # Game drawing
+    # clear_canvas()
+    # background.draw()
+    # mario.draw()
+    # gumba.draw()
+    # block1.draw()
+    # item_block1.draw()
+    # item_block2.draw()
+    # tiles.draw()
+    # tiles_bottom.draw()
+    # coins.draw()
+
+
+
+    # update_canvas()
+
+    # delay(0.06)
 
 # finalization code
 
