@@ -4,7 +4,7 @@ import random
 
 import game_framework
 import title_state
-import main_stage1_2
+import main_stage1_1
 import json
 import os
 
@@ -12,7 +12,7 @@ import os
 
 BOTTOM = 240
 
-name = "main_stage1_1"
+name = "main_stage1_2"
 
 
 class Background:
@@ -70,23 +70,6 @@ class Block:
             self.image.clip_draw(46, 110, 20, 31, self.x + k, self.y)
             k += 20
 
-class Pipe:
-    def __init__(self, x, y, l):
-        self.image = load_image('OverWorld.png')
-        self.x = x
-        self.y = y
-        self.l = l
-
-    def draw(self):
-        if self.l == 0: # pipe의 y가 225
-            self.image.clip_draw(84, 97, 52, 50, self.x, self.y)
-        elif self.l == 1:       # pipe의 y가 285
-            self.image.clip_draw(84, 97, 52, 50, self.x, self.y)
-            self.image.clip_draw(84, 97, 52, 15, self.x, self.y - 33)
-            self.image.clip_draw(84, 97, 52, 15, self.x, self.y - 33 - 15)
-            self.image.clip_draw(84, 97, 52, 15, self.x, self.y - 33 - 15 - 15)
-            self.image.clip_draw(84, 97, 52, 15, self.x, self.y - 33 - 15 - 15 - 15)
-
 class Item_Block():
     def __init__(self, x, y):
         self.image = load_image('OverWorld.png')
@@ -135,7 +118,7 @@ class Mario:
     global item_block1
     def __init__(self):
         self.image = load_image('mario_sheet.png')
-        self.x = 200
+        self.x = 100
         self.y = 240
         self.dir = 0
         self.frame = 0
@@ -201,22 +184,23 @@ def handle_events():
                 mario.frame = 0
 
 def enter():
-    global background, tiles, tiles_bottom, mario, coins, item_block2, item_block1, block1, gumba, pipe, pipe2
+    global background, background2, tiles, tiles_bottom, mario, coins, item_block2, item_block1, block1, gumba
     background = Background(960, 540)
+    background2 = Background(960 + 1820, 540)
     tiles = Tiles()
     tiles_bottom = Tiles_bottom()
     mario = Mario()
     coins = Coins(580, 360)
     item_block1 = Item_Block(450, 310)
     item_block2 = Item_Block(620, 430)
-    block1 = Block(550, 310)
+    block1 = Block(700, 310)
     gumba = Monster_Gumba()
-    pipe = Pipe(1000, 225, 0)
-    pipe2 = Pipe(1350, 285, 1)
+    mario.dir += 1
 
 def exit():
-    global background, tiles, tiles_bottom, mario, coins, item_block2, item_block1, block1, gumba, pipe, pipe2
+    global background, background2, tiles, tiles_bottom, mario, coins, item_block2, item_block1, block1, gumba
     del(background)
+    del(background2)
     del(tiles)
     del(tiles_bottom)
     del(mario)
@@ -225,8 +209,6 @@ def exit():
     del(item_block2)
     del(block1)
     del(gumba)
-    del(pipe)
-    del(pipe2)
 
 def pause():
     pass
@@ -238,8 +220,6 @@ def update():
     mario.update()
     coins.update()
     gumba.update()
-    if mario.x > 1920:
-        game_framework.change_state(main_stage1_2)
 
 def draw():
     clear_canvas()
@@ -252,8 +232,6 @@ def draw():
     tiles.draw()
     tiles_bottom.draw()
     coins.draw()
-    pipe.draw()
-    pipe2.draw()
     update_canvas()
     delay(0.06)
 
