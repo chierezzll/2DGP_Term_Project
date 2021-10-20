@@ -150,7 +150,7 @@ class Mario:
 
     def update(self):
         self.frame = (self.frame + 1 ) % 4
-        self.x += 15 * self.dir     #마리오 이동속도
+        self.x += 10 * self.dir     #마리오 이동속도
         if self.isJump > 0:
             if self.v > 0:
                 # 속도가 0보다 클때는 위로 올라감
