@@ -10,7 +10,7 @@ import os
 
 # Game object class here
 
-BOTTOM = 240
+BOTTOM = 225
 
 name = "main_stage1_3"
 
@@ -138,7 +138,7 @@ class Mario:
     def __init__(self):
         self.image = load_image('mario_sheet.png')
         self.x = 100
-        self.y = 240
+        self.y = 225
         self.dir = 0
         self.frame = 0
         self.posx = 350
@@ -167,9 +167,9 @@ class Mario:
 
     def draw(self):
         if mario.dir != 0:
-            self.image.clip_draw(self.posx + self.frame * 45, self.posy, 40, 90, self.x, self.y)  # 350, 400, 450, 500
+            self.image.clip_draw(self.posx + self.frame * 45, self.posy, 40, 90, self.x, self.y, 50, 50)  # 350, 400, 450, 500
         else:
-            self.image.clip_draw(self.posx, self.posy, 40, 90, self.x, self.y)
+            self.image.clip_draw(self.posx, self.posy, 40, 90, self.x, self.y, 50, 50)
 
     def jump(self, j):
         self.isJump = j
