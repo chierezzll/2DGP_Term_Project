@@ -3,7 +3,9 @@ import game_framework
 import random
 import game_framework
 import title_state
-import main_stage1_2
+import main_stage1_3
+import main_stage2_2
+
 import json
 import os
 
@@ -11,7 +13,7 @@ import os
 
 BOTTOM = 225
 
-name = "main_stage1_1"
+name = "main_stage2_1"
 
 
 class Background:
@@ -232,8 +234,8 @@ def handle_events():
         elif event.type == SDL_KEYDOWN and event.key == SDLK_ESCAPE:
             game_framework.change_state(title_state)
         elif event.type == SDL_KEYDOWN and event.key == SDLK_INSERT:
-            game_framework.change_state(main_stage1_2)
-        elif event.type == SDL_KEYDOWN:     # 이동
+            game_framework.change_state(main_stage2_2)
+        elif event.type == SDL_KEYDOWN:  # 이동
             if event.key == SDLK_RIGHT:
                 mario.dir += 1
                 mario.posx = 350
@@ -251,8 +253,6 @@ def handle_events():
                     fire.isSkill = -1
             elif event.key == SDLK_DOWN:
                 mario.posx = 620
-
-
 
         elif event.type == SDL_KEYUP:
             if event.key == SDLK_RIGHT:
@@ -286,6 +286,8 @@ def enter():
     pipe2 = Pipe(1350, 285, 1)
     pipe3 = Pipe(1700, 330, 2)
 
+    mario.dir += 1
+
 def exit():
     global background, tiles, tiles_bottom, mario, coins, coins2, item_block2, item_block1, block1, gumba, gumba2, pipe, pipe2, pipe3
     global fire
@@ -318,8 +320,9 @@ def update():
     gumba.update()
     gumba2.update()
     fire.update()
+
     if mario.x > 1920:
-        game_framework.change_state(main_stage1_2)
+        game_framework.change_state(main_stage2_2)
 
 
 

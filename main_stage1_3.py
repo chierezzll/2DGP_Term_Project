@@ -5,6 +5,7 @@ import random
 import game_framework
 import title_state
 import main_stage1_2
+import main_stage2_1
 import json
 import os
 
@@ -226,7 +227,7 @@ def handle_events():
         elif event.type == SDL_KEYDOWN and event.key == SDLK_ESCAPE:
             game_framework.change_state(title_state)
         elif event.type == SDL_KEYDOWN and event.key == SDLK_INSERT:
-            game_framework.change_state(main_stage1_2)
+            game_framework.change_state(main_stage2_1)
         elif event.type == SDL_KEYDOWN:  # 이동
             if event.key == SDLK_RIGHT:
                 mario.dir += 1
@@ -323,6 +324,9 @@ def update():
     gumba.update()
     gumba2.update()
     fire.update()
+
+    if mario.x > 1920:
+        game_framework.change_state(main_stage2_1)
 
 def draw():
     clear_canvas()
