@@ -4,8 +4,8 @@ import random
 import game_framework
 import title_state
 import main_stage1_2
-import json
-import os
+
+import game_world
 
 from mario import Mario
 from item_block import Item_Block
@@ -24,52 +24,54 @@ BOTTOM = 225
 name = "main_stage1_1"
 
 
-def handle_events():
-    global running
-    global mario
-    global fire
+# def handle_events():
+#     global running
+#     global mario
+#     global fire
+#
+#     events = get_events()
+#     for event in events:
+#         if event.type == SDL_QUIT:
+#             game_framework.quit()
+#         elif event.type == SDL_KEYDOWN and event.key == SDLK_ESCAPE:
+#             game_framework.change_state(title_state)
+#         elif event.type == SDL_KEYDOWN and event.key == SDLK_INSERT:
+#             game_framework.change_state(main_stage1_2)
+#         elif event.type == SDL_KEYDOWN:     # 이동
+#             if event.key == SDLK_RIGHT:
+#                 mario.dir += 1
+#                 mario.posx = 350
+#                 mario.posy = 90
+#             elif event.key == SDLK_LEFT:
+#                 mario.dir -= 1
+#                 mario.posx = 620
+#                 mario.posy = 0
+#             elif event.key == SDLK_SPACE:
+#                 mario.isJump = 1
+#             elif event.key == SDLK_a:
+#                 if mario.dir != -1:
+#                     fire.isSkill = 1
+#                 else:
+#                     fire.isSkill = -1
+#             elif event.key == SDLK_DOWN:
+#                 mario.posx = 620
+#
+#
+#
+#         elif event.type == SDL_KEYUP:
+#             if event.key == SDLK_RIGHT:
+#                 mario.dir -= 1
+#                 mario.frame = 0
+#                 mario.posx = 350
+#             elif event.key == SDLK_LEFT:
+#                 mario.dir += 1
+#                 mario.frame = 0
+#                 mario.posy = 0
+#                 mario.posx = 750
+#             elif event.key == SDLK_DOWN:
+#                 mario.posx = 350
 
-    events = get_events()
-    for event in events:
-        if event.type == SDL_QUIT:
-            game_framework.quit()
-        elif event.type == SDL_KEYDOWN and event.key == SDLK_ESCAPE:
-            game_framework.change_state(title_state)
-        elif event.type == SDL_KEYDOWN and event.key == SDLK_INSERT:
-            game_framework.change_state(main_stage1_2)
-        elif event.type == SDL_KEYDOWN:     # 이동
-            if event.key == SDLK_RIGHT:
-                mario.dir += 1
-                mario.posx = 350
-                mario.posy = 90
-            elif event.key == SDLK_LEFT:
-                mario.dir -= 1
-                mario.posx = 620
-                mario.posy = 0
-            elif event.key == SDLK_SPACE:
-                mario.isJump = 1
-            elif event.key == SDLK_a:
-                if mario.dir != -1:
-                    fire.isSkill = 1
-                else:
-                    fire.isSkill = -1
-            elif event.key == SDLK_DOWN:
-                mario.posx = 620
-
-
-
-        elif event.type == SDL_KEYUP:
-            if event.key == SDLK_RIGHT:
-                mario.dir -= 1
-                mario.frame = 0
-                mario.posx = 350
-            elif event.key == SDLK_LEFT:
-                mario.dir += 1
-                mario.frame = 0
-                mario.posy = 0
-                mario.posx = 750
-            elif event.key == SDLK_DOWN:
-                mario.posx = 350
+mario = None
 
 def enter():
     global background, tiles, tiles_bottom, mario, coins, coins2, item_block2, item_block1, block1, gumba, gumba2, pipe, pipe2, pipe3
@@ -108,6 +110,21 @@ def exit():
     del(pipe)
     del(pipe2)
     del(pipe3)
+
+
+def handle_events():
+    events = get_events()
+    for event in events:
+        if event.type == SDL_QUIT:
+            game_framework.quit()
+        elif event.type == SDL_KEYDOWN and event.key == SDLK_ESCAPE:
+                game_framework.quit()
+        else:
+            mario.handle_event(event)
+
+
+
+
 
 def pause():
     pass
