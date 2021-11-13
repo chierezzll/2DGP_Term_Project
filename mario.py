@@ -1,6 +1,7 @@
 from pico2d import *
 import game_framework
 import game_world
+from fire import Fire
 
 BOTTOM = 225
 
@@ -14,14 +15,15 @@ TIME_PER_ACTION = 0
 ACTION_PER_TIME = 0
 FRAMES_PER_ACTION = 0
 
-RIGHT_DOWN, LEFT_DOWN, RIGHT_UP, LEFT_UP, SPACE, JUMP_FINISH = range(6)
+RIGHT_DOWN, LEFT_DOWN, RIGHT_UP, LEFT_UP, SPACE, JUMP_FINISH, Z = range(7)
 
 key_event_table = {
     (SDL_KEYDOWN, SDLK_RIGHT): RIGHT_DOWN,
     (SDL_KEYDOWN, SDLK_LEFT): LEFT_DOWN,
     (SDL_KEYUP, SDLK_RIGHT): RIGHT_UP,
     (SDL_KEYUP, SDLK_LEFT): LEFT_UP,
-    (SDL_KEYDOWN, SDLK_SPACE): SPACE
+    (SDL_KEYDOWN, SDLK_SPACE): SPACE,
+    (SDL_KEYDOWN, SDLK_z): Z,
 }
 
 class IdleState:
@@ -37,7 +39,8 @@ class IdleState:
             mario.velocity += RUN_SPEED_PPS
 
     def exit(mario, event):
-        pass
+        if event == Z:
+            mario.skill()
 
     def do(mario):
         mario.frame = (mario.frame + FRAMES_PER_ACTION * ACTION_PER_TIME * game_framework.frame_time) % 8
@@ -63,17 +66,14 @@ class RunState:
         mario.dir = clamp(-1, mario.velocity, 1)
 
     def exit(mario, event):
-        pass
-    #     if event == SPACE:
-    #         mario.fire_ball()
+         if event == Z:
+            mario.skill()
 
     def do(mario):
         mario.frame = (mario.frame + 1) % 4
         mario.x += mario.velocity * game_framework.frame_time
         mario.x = clamp(25, mario.x, 1950)
 
-        #if mario.isJump != 0:
-            #mario.add_event(SPACE)
 
     def draw(mario):
         if mario.dir == 1:
@@ -95,7 +95,8 @@ class JumpState:
         mario.dir = clamp(-1, mario.velocity, 1)
 
     def exit(mario, event):
-        pass
+        if event == Z:
+            mario.skill()
 
     def do(mario):
         mario.frame = (mario.frame + 1) % 4
@@ -123,9 +124,9 @@ class JumpState:
             mario.image.clip_draw(615 + int(mario.frame) * 45, 0, 40, 90, mario.x, mario.y, 50, 50)
 
 next_state_table = {
-    IdleState: {RIGHT_UP: RunState, LEFT_UP: RunState, RIGHT_DOWN: RunState, LEFT_DOWN: RunState, SPACE: JumpState},
-    RunState: {RIGHT_UP: IdleState, LEFT_UP: IdleState, LEFT_DOWN: RunState, RIGHT_DOWN: RunState, SPACE: JumpState, JUMP_FINISH: IdleState},
-    JumpState: {RIGHT_UP: JumpState, LEFT_UP: JumpState, LEFT_DOWN: JumpState, RIGHT_DOWN: JumpState, SPACE: JumpState, JUMP_FINISH: RunState}
+    IdleState: {RIGHT_UP: RunState, LEFT_UP: RunState, RIGHT_DOWN: RunState, LEFT_DOWN: RunState, SPACE: JumpState, Z: IdleState},
+    RunState: {RIGHT_UP: IdleState, LEFT_UP: IdleState, LEFT_DOWN: RunState, RIGHT_DOWN: RunState, SPACE: JumpState, JUMP_FINISH: IdleState, Z: RunState},
+    JumpState: {RIGHT_UP: JumpState, LEFT_UP: JumpState, LEFT_DOWN: JumpState, RIGHT_DOWN: JumpState, SPACE: JumpState, JUMP_FINISH: RunState, Z: JumpState}
 }
 
 class Mario:
@@ -159,14 +160,16 @@ class Mario:
             self.cur_state = next_state_table[self.cur_state][event]
             self.cur_state.enter(self, event)
 
+    def skill(self):
+        fire = Fire(self.x, self.y, self.dir*30)
+        game_world.add_object(fire, 1)
+
 
     def draw(self):
         self.cur_state.draw(self)
         debug_print('Velocity :' + str(self.velocity) + ' Dir:' + str(self.dir) + '  State:' + str(self.cur_state))
 
     def handle_event(self, event):
-        global mario
-
         if (event.type, event.key) in key_event_table:
             key_event = key_event_table[(event.type, event.key)]
             self.add_event(key_event)

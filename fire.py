@@ -1,42 +1,23 @@
 from pico2d import *
-from mario import Mario
+import game_world
 
 class Fire:
-    global mario
+    image = None
 
-    def __init__(self):
-        self.image = load_image('fire.png')
+    def __init__(self, x = 400, y = 300, velocity = 1):
         self.frame = 0
-        self.x = 0
-        self.isSkill = 0
-        self.firebeg = 0
-        self.firebegy= 0
-
-    def update(self):
-        self.frame = (self.frame + 1) % 3
-        if self.isSkill > 0:
-            self.x += 45
-            if self.x > 300:
-                self.x = 0
-                self.isSkill = 0
-
-        elif self.isSkill < 0:
-            self.x -= 45
-            if self.x < -300:
-                self.x = 0
-                self.isSkill = 0
-
-        elif self.isSkill == 0:
-            self.firebeg = mario.x
-            self.firebegy = mario.y
-
-
-
-    def skill(self, j):
-        self.isSkill = j
+        if Fire.image == None:
+            #Fire.image = load_image('ball21x21.png')
+            Fire.image = load_image('fire.png')
+        self.x, self.y, self.velocity = x, y, velocity
 
     def draw(self):
-        if self.isSkill > 0:
-            self.image.clip_draw(0 + self.frame * 17, 80, 15, 15, self.firebeg + self.x, self.firebegy, 25, 25)
-        elif self.isSkill < 0:
-            self.image.clip_draw(0 + self.frame * 17, 80, 15, 15, self.firebeg + self.x, self.firebegy, 25, 25)
+        #self.image.draw(self.x, self.y)
+        self.image.clip_draw(0 + self.frame * 17, 80, 15, 15, self.x, self.y, 25, 25)
+
+    def update(self):
+        self.x += self.velocity
+        self.frame = (self.frame + 1) % 3
+
+        if self.x < 25 or self.x > 1600 - 25:
+            game_world.remove_object(self)
