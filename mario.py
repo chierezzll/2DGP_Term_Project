@@ -6,7 +6,7 @@ from fire import Fire
 BOTTOM = 225
 
 PIXEL_PER_METER = (10.0 / 0.3)
-RUN_SPEED_KMPH = 20.0
+RUN_SPEED_KMPH = 50.0
 RUN_SPEED_MPM = (RUN_SPEED_KMPH * 1000 / 60.0)
 RUN_SPEED_MPS = (RUN_SPEED_MPM / 60.0)
 RUN_SPEED_PPS = (RUN_SPEED_MPS * PIXEL_PER_METER)
@@ -112,7 +112,7 @@ class JumpState:
 
         mario.y += mario.f
         mario.v -= 1
-        if mario.y == BOTTOM:
+        if mario.y <= BOTTOM:
             mario.v = 7
             mario.isJump = 0
             mario.add_event(JUMP_FINISH)
@@ -130,10 +130,10 @@ next_state_table = {
 }
 
 class Mario:
-    def __init__(self):
+    def __init__(self, x, y):
         self.image = load_image('mario_sheet.png')
-        self.x = 200
-        self.y = 225
+        self.x = x
+        self.y = y
         self.dir = 1
         self.velocity = 0
         self.frame = 0
