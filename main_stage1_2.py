@@ -50,7 +50,7 @@ def enter():
     background = Background(960, 540)
     tiles = Tiles()
     tiles_bottom = Tiles_bottom()
-    mario = Mario()
+    mario = Mario(200, 225)
     coins = Coins(850, 500, 4)
     item_block1 = Item_Block(225, 310, 1)
     item_block2 = Item_Block(1131, 450, 1)

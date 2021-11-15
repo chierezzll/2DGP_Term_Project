@@ -47,7 +47,7 @@ def enter():
     background = Background(960, 540)
     tiles = Tiles()
     tiles_bottom = Tiles_bottom()
-    mario = Mario()
+    mario = Mario(200, 225)
     coins = Coins(950, 470, 3)
     coins2 = Coins(1190, 270, 2)
     item_block1 = Item_Block(300, 310, 1)
@@ -62,7 +62,7 @@ def enter():
     block5 = Block(1232, 420, 1)
     gumba = Monster_Gumba(1000, 215, 100, 4)
     gumba2 = Monster_Gumba(380, 215, 50, 2)
-    castle = Castle()
+    castle = Castle(1750, 275)
 
     mario.velocity += RUN_SPEED_PPS
 
