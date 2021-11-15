@@ -16,7 +16,6 @@ from block import Block
 from pipe import Pipe
 from monster_gumba import Monster_Gumba
 from coins import Coins
-from fire import Fire
 # Game object class here
 
 BOTTOM = 225
@@ -46,23 +45,6 @@ def enter():
     #game_world.add_object(mario, 1)
 
 def exit():
-    # global background, tiles, tiles_bottom, mario, coins, coins2, item_block2, item_block1, block1, gumba, gumba2, pipe, pipe2, pipe3
-    # global fire
-    # del(background)
-    # del(tiles)
-    # del(tiles_bottom)
-    # del(mario)
-    # del(coins)
-    # del(coins2)
-    # del(item_block1)
-    # del(item_block2)
-    # del(block1)
-    # del(gumba)
-    # del(gumba2)
-    # # del(fire)
-    # del(pipe)
-    # del(pipe2)
-    # del(pipe3)
 
     game_world.clear()
 
@@ -90,7 +72,6 @@ def update():
     coins2.update()
     gumba.update()
     gumba2.update()
-    # fire.update()
     if mario.x > 1920:
         game_framework.change_state(main_stage1_2)
 

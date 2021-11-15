@@ -6,261 +6,40 @@ import game_framework
 import title_state
 import main_stage1_2
 import main_stage2_1
-import json
-import os
 
+from mario import Mario
+from item_block import Item_Block
+from background import Background
+from tiles import Tiles
+from tiles_bottom import Tiles_bottom
+from block import Block
+from pipe import Pipe
+from monster_gumba import Monster_Gumba
+from coins import Coins
+
+from castle import Castle
 # Game object class here
 
 BOTTOM = 225
 
+PIXEL_PER_METER = (10.0 / 0.3)
+RUN_SPEED_KMPH = 50.0
+RUN_SPEED_MPM = (RUN_SPEED_KMPH * 1000 / 60.0)
+RUN_SPEED_MPS = (RUN_SPEED_MPM / 60.0)
+RUN_SPEED_PPS = (RUN_SPEED_MPS * PIXEL_PER_METER)
+
 name = "main_stage1_3"
 
 
-class Background:
-    global mario
-
-    def __init__(self, x, y): # 생성자
-        # self.image = load_image('background.png')
-        self.image = load_image('bg2.png')
-        self.x = x
-        self.y = y
-
-    def update(self):
-        if mario.x > 600:
-            self.x = self.x - (mario.x - 600)
-
-    def draw(self):
-        self.image.clip_draw(0, 0, 1920, 1080, self.x, self.y)
-        self.image.clip_draw(0, 0, 1920, 1080, self.x + 1920, self.y)
-
-class Castle:
-    def __init__(self):
-        self.image = load_image('Castle.png')
-
-    def draw(self):
-        self.image.draw(1750, 240)
-
-class Tiles:
-    def __init__(self):
-        self.image = load_image('tiles_001.png')
-        self.y = 200
-
-    def draw(self):
-        k = 0
-        for i in range(23):
-            self.image.clip_draw(0, 10, 95, 100, 0 + k, self.y - 50)
-            k += 90
-
-class Tiles_bottom:
-    def __init__(self):
-        self.image = load_image('tiles_007.png')
-
-    def draw(self):
-        k = 0
-
-        for i in range(65):
-            self.image.draw(k, 160)
-            self.image.draw(k, 130)
-            self.image.draw(k, 100)
-            self.image.draw(k, 70)
-            self.image.draw(k, 40)
-            k += 30
-
-class Block:
-    def __init__(self, x, y, l):
-        self.image = load_image('OverWorld.png')
-        self.x = x
-        self.y = y
-        self.l = l
-
-    def draw(self):
-        k = 0
-        for i in range(self.l):
-            self.image.clip_draw(46, 110, 20, 31, self.x + k, self.y)
-            k += 20
-
-class Item_Block():
-    def __init__(self, x, y, l):
-        self.image = load_image('OverWorld.png')
-        self.x = x
-        self.y = y
-        self.l = l
-
-    def draw(self):
-        k = 0
-        for i in range(self.l):
-            self.image.clip_draw(64, 110, 20, 31, self.x + k, self.y)
-            k += 17
-
-class Monster_Gumba:
-    def __init__(self, x, y, d, num):
-        self.image = load_image('Enemies.png')
-        self.x = x
-        self.y = y
-        self.tx = x
-        self.d = d  # 굼바 이동범위
-        self.dir = 1
-        self.num = num # 굼바 갯수
-        self.frame = 0
-
-    def update(self):
-        self.frame = (self.frame + 1) % 2
-        self.x += 3 * self.dir
-        if self.x >= self.tx + self.d:
-            self.dir = -1
-        elif self.x <= self.tx - self.d:
-            self.dir = 1
-
-    def draw(self):
-        k = 0
-        for i in range(self.num):
-            self.image.clip_draw(0 + self.frame * 30, 0, 30, 30, self.x + k, self.y)
-            k += 30
-
-class Coins:
-    def __init__(self, x, y, l):
-        self.image = load_image('items.png')
-        self.frame = 0
-        self.x = x
-        self.y = y
-        self.l = l
-
-    def update(self):
-        self.frame = (self.frame + 1) % 4
-
-    def draw(self):
-        k = 0
-        for i in range(self.l):
-            self.image.clip_draw(0 + self.frame * 15, 16, 15, 16, self.x + k, self.y)
-            k += 30
-
-class Mario:
-    global item_block1
-    def __init__(self):
-        self.image = load_image('mario_sheet.png')
-        self.x = 100
-        self.y = 225
-        self.dir = 0
-        self.frame = 0
-        self.posx = 350
-        self.posy = 90
-        self.isJump = 0
-        self.v = 7
-        self.m = 2
-        self.f = 0
-
-    def update(self):
-        self.frame = (self.frame + 1 ) % 4
-        self.x += 10 * self.dir     #마리오 이동속도
-        if self.isJump > 0:
-            if self.v > 0:
-                # 속도가 0보다 클때는 위로 올라감
-                self.f = (0.5 * self.m * (self.v * self.v))
-            else:
-                # 속도가 0보다 작을때는 아래로 내려감
-                self.f = -(0.5 * self.m * (self.v * self.v))
-
-            self.y += self.f
-            self.v -= 1
-            if self.y == BOTTOM:
-                self.isJump = 0
-                self.v = 7
-
-    def draw(self):
-        if mario.dir != 0:
-            self.image.clip_draw(self.posx + self.frame * 45, self.posy, 40, 90, self.x, self.y, 50, 50)  # 350, 400, 450, 500
-        else:
-            self.image.clip_draw(self.posx, self.posy, 40, 90, self.x, self.y, 50, 50)
-
-    def jump(self, j):
-        self.isJump = j
-
-class Fire:
-    global mario
-
-    def __init__(self):
-        self.image = load_image('fire.png')
-        self.frame = 0
-        self.x = 0
-        self.isSkill = 0
-        self.firebeg = 0
-        self.firebegy= 0
-
-    def update(self):
-        self.frame = (self.frame + 1) % 3
-        if self.isSkill > 0:
-            self.x += 45
-            if self.x > 300:
-                self.x = 0
-                self.isSkill = 0
-
-        elif self.isSkill < 0:
-            self.x -= 45
-            if self.x < -300:
-                self.x = 0
-                self.isSkill = 0
-
-        elif self.isSkill == 0:
-            self.firebeg = mario.x
-            self.firebegy = mario.y
-
-
-
-    def skill(self, j):
-        self.isSkill = j
-
-    def draw(self):
-        if self.isSkill > 0:
-            self.image.clip_draw(0 + self.frame * 17, 80, 15, 15, self.firebeg + self.x, self.firebegy, 25, 25)
-        elif self.isSkill < 0:
-            self.image.clip_draw(0 + self.frame * 17, 80, 15, 15, self.firebeg + self.x, self.firebegy, 25, 25)
-
 def handle_events():
-    global running
-    global mario
-    global fire
-
     events = get_events()
     for event in events:
         if event.type == SDL_QUIT:
             game_framework.quit()
         elif event.type == SDL_KEYDOWN and event.key == SDLK_ESCAPE:
-            game_framework.change_state(title_state)
-        elif event.type == SDL_KEYDOWN and event.key == SDLK_INSERT:
-            game_framework.change_state(main_stage2_1)
-        elif event.type == SDL_KEYDOWN:  # 이동
-            if event.key == SDLK_RIGHT:
-                mario.dir += 1
-                mario.posx = 350
-                mario.posy = 90
-            elif event.key == SDLK_LEFT:
-                mario.dir -= 1
-                mario.posx = 620
-                mario.posy = 0
-            elif event.key == SDLK_SPACE:
-                mario.isJump = 1
-            elif event.key == SDLK_a:
-                if mario.dir != -1:
-                    fire.isSkill = 1
-                else:
-                    fire.isSkill = -1
-            elif event.key == SDLK_DOWN:
-                mario.posx = 620
-
-
-
-        elif event.type == SDL_KEYUP:
-            if event.key == SDLK_RIGHT:
-                mario.dir -= 1
-                mario.frame = 0
-                mario.posx = 350
-            elif event.key == SDLK_LEFT:
-                mario.dir += 1
-                mario.frame = 0
-                mario.posy = 0
-                mario.posx = 750
-            elif event.key == SDLK_DOWN:
-                mario.posx = 350
+                game_framework.quit()
+        else:
+            mario.handle_event(event)
 
 def enter():
     global background, tiles, tiles_bottom, mario, coins, item_block2, item_block1, item_block3, block1, block2, block3, block4, block5, gumba
@@ -283,9 +62,9 @@ def enter():
     block5 = Block(1232, 420, 1)
     gumba = Monster_Gumba(1000, 215, 100, 4)
     gumba2 = Monster_Gumba(380, 215, 50, 2)
-    fire = Fire()
     castle = Castle()
-    mario.dir += 1
+
+    mario.velocity += RUN_SPEED_PPS
 
 def exit():
     global background, tiles, tiles_bottom, mario, coins, item_block2, item_block1, item_block3, block1, block2, block3, block4, block5, gumba
@@ -309,7 +88,6 @@ def exit():
     del(gumba)
     del(gumba2)
     del(castle)
-    del(fire)
 
 def pause():
     pass
@@ -323,7 +101,6 @@ def update():
     coins2.update()
     gumba.update()
     gumba2.update()
-    fire.update()
 
     if mario.x > 1920:
         game_framework.change_state(main_stage2_1)
@@ -349,7 +126,6 @@ def draw():
     tiles_bottom.draw()
     coins.draw()
     coins2.draw()
-    fire.draw()
 
     update_canvas()
     delay(0.06)
