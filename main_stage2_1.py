@@ -80,6 +80,8 @@ def update():
     if mario.x > 1920:
         game_framework.change_state(main_stage2_2)
 
+    for game_object in game_world.all_objects():
+        game_object.update()
 
 
 def draw():
@@ -97,6 +99,9 @@ def draw():
     air_tile7.draw()
     air_tile8.draw()
     air_tile9.draw()
+
+    for game_object in game_world.all_objects():
+        game_object.draw()
 
 
     update_canvas()

@@ -7,6 +7,7 @@ import title_state
 import main_stage1_2
 import main_stage2_1
 
+import game_world
 from mario import Mario
 from item_block import Item_Block
 from background import Background
@@ -67,27 +68,7 @@ def enter():
     mario.velocity += RUN_SPEED_PPS
 
 def exit():
-    global background, tiles, tiles_bottom, mario, coins, item_block2, item_block1, item_block3, block1, block2, block3, block4, block5, gumba
-    global gumba2, castle, item_block4, item_block5, coins2, fire
-    del(background)
-    del(tiles)
-    del(tiles_bottom)
-    del(mario)
-    del(coins)
-    del(coins2)
-    del(item_block1)
-    del(item_block2)
-    del(item_block3)
-    del(item_block4)
-    del(item_block5)
-    del(block1)
-    del(block2)
-    del(block3)
-    del(block4)
-    del(block5)
-    del(gumba)
-    del(gumba2)
-    del(castle)
+    game_world.clear()
 
 def pause():
     pass
@@ -104,6 +85,10 @@ def update():
 
     if mario.x > 1920:
         game_framework.change_state(main_stage2_1)
+
+
+    for game_object in game_world.all_objects():
+        game_object.update()
 
 def draw():
     clear_canvas()
@@ -126,6 +111,9 @@ def draw():
     tiles_bottom.draw()
     coins.draw()
     coins2.draw()
+
+    for game_object in game_world.all_objects():
+        game_object.draw()
 
     update_canvas()
     delay(0.06)

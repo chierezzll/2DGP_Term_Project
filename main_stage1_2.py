@@ -83,6 +83,9 @@ def update():
     if mario.x > 1920:
         game_framework.change_state(main_stage1_3)
 
+    for game_object in game_world.all_objects():
+        game_object.update()
+
 def draw():
     clear_canvas()
     background.draw()
@@ -100,6 +103,10 @@ def draw():
     tiles.draw()
     tiles_bottom.draw()
     coins.draw()
+
+    for game_object in game_world.all_objects():
+        game_object.draw()
+
     update_canvas()
     delay(0.06)
 

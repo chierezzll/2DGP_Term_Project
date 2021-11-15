@@ -26,7 +26,6 @@ mario = None
 
 def enter():
     global background, tiles, tiles_bottom, mario, coins, coins2, item_block2, item_block1, block1, gumba, gumba2, pipe, pipe2, pipe3
-    global fire
     background = Background(960, 540)
     tiles = Tiles()
     tiles_bottom = Tiles_bottom()
