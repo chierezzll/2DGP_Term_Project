@@ -19,12 +19,14 @@ import game_world
 from mario import Mario
 from item_block import Item_Block
 from background3 import Background
-from tiles import Tiles
-from tiles_bottom import Tiles_bottom
+from tiles1_2 import Tiles
+from tiles_bottom1_2 import Tiles_bottom
 from block import Block
 from pipe import Pipe
 from monster_gumba import Monster_Gumba
 from coins import Coins
+from air_tile import Air_tile
+from castle import Castle
 
 # Game object class here
 
@@ -45,22 +47,26 @@ def handle_events():
             mario.handle_event(event)
 
 def enter():
-    global background, tiles, tiles_bottom, mario, coins, coins2, item_block2, item_block1, block1, gumba, gumba2, pipe, pipe2, pipe3
-    global fire
+    global background, tiles, tiles_bottom, mario, coins, coins2, item_block2, item_block1, block, gumba, gumba2, gumba3, gumba4
+    global air_tile, castle
     background = Background(960, 540)
     tiles = Tiles()
     tiles_bottom = Tiles_bottom()
-    mario = Mario(200, 225)
-    coins = Coins(580, 360, 3)
-    coins2 = Coins(1450, 235, 7)
-    item_block1 = Item_Block(450, 310, 3)
-    item_block2 = Item_Block(620, 430, 3)
-    block1 = Block(550, 310, 2)
+    mario = Mario(25, 590)
+
+    air_tile = Air_tile(10, 550, 10)
+
+    block = Block(620, 320, 5)
+    item_block1 = Item_Block(670, 420, 1)
+
+
+
     gumba = Monster_Gumba(600, 215, 50, 1)
     gumba2 = Monster_Gumba(1500, 215, 70, 2)
-    pipe = Pipe(1000, 225, 0)
-    pipe2 = Pipe(1350, 285, 1)
-    pipe3 = Pipe(1700, 330, 2)
+    gumba3 = Monster_Gumba(800, 215, 90, 2)
+    gumba4 = Monster_Gumba(1300, 215, 50, 1)
+
+    castle = Castle(1770, 275)
 
     mario.velocity += RUN_SPEED_PPS
 
@@ -75,10 +81,10 @@ def resume():
 
 def update():
     mario.update()
-    coins.update()
-    coins2.update()
     gumba.update()
     gumba2.update()
+    gumba3.update()
+    gumba4.update()
     if mario.x > 1920:
         game_framework.change_state(main_stage3_3)
 
@@ -92,16 +98,14 @@ def draw():
     mario.draw()
     gumba.draw()
     gumba2.draw()
-    block1.draw()
-    item_block1.draw()
-    item_block2.draw()
+    gumba3.draw()
+    gumba4.draw()
+    air_tile.draw()
     tiles.draw()
     tiles_bottom.draw()
-    coins.draw()
-    coins2.draw()
-    pipe.draw()
-    pipe2.draw()
-    pipe3.draw()
+    block.draw()
+    item_block1.draw()
+    castle.draw()
 
     for game_object in game_world.all_objects():
         game_object.draw()

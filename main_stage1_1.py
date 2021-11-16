@@ -102,6 +102,5 @@ def draw():
 
 
     update_canvas()
-    delay(0.06)
 
 

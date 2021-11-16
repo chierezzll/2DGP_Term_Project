@@ -24,6 +24,7 @@ from block import Block
 from pipe import Pipe
 from monster_gumba import Monster_Gumba
 from coins import Coins
+from air_tile import Air_tile
 
 # Game object class here
 
@@ -46,22 +47,24 @@ def handle_events():
 
 
 def enter():
-    global background, tiles, tiles_bottom, mario, coins, coins2, item_block2, item_block1, block1, gumba, gumba2, pipe, pipe2, pipe3
-    global fire
+    global background, tiles, tiles_bottom, mario, coins, coins2, item_block2, item_block1, block, gumba, gumba2, pipe, pipe2, pipe3
+    global air_tile, air_tile2, air_tile3, air_tile4, air_tile5, air_tile6, air_tile7, air_tile8, air_tile9
     background = Background(960, 540)
-    tiles = Tiles()
     tiles_bottom = Tiles_bottom()
-    mario = Mario(200, 225)
-    coins = Coins(580, 360, 3)
-    coins2 = Coins(1450, 235, 7)
-    item_block1 = Item_Block(450, 310, 3)
-    item_block2 = Item_Block(620, 430, 3)
-    block1 = Block(550, 310, 2)
-    gumba = Monster_Gumba(600, 215, 50, 1)
-    gumba2 = Monster_Gumba(1500, 215, 70, 2)
-    pipe = Pipe(1000, 225, 0)
-    pipe2 = Pipe(1350, 285, 1)
-    pipe3 = Pipe(1700, 330, 2)
+    mario = Mario(25, 590)
+
+    air_tile = Air_tile(10, 550, 10)
+    air_tile2 = Air_tile(430, 550, 2)
+    air_tile3 = Air_tile(680, 550, 10)
+
+    air_tile4 = Air_tile(900, 370, 10)
+    block = Block(980, 470, 3)
+    gumba = Monster_Gumba(960, 400, 40, 2)
+
+    air_tile5 = Air_tile(1100, 550, 7)
+    air_tile6 = Air_tile(1420, 550, 2)
+
+    air_tile7 = Air_tile(1600, 550, 18)
 
 
     mario.velocity += RUN_SPEED_PPS
@@ -77,10 +80,7 @@ def resume():
 
 def update():
     mario.update()
-    coins.update()
-    coins2.update()
     gumba.update()
-    gumba2.update()
     if mario.x > 1920:
         game_framework.change_state(main_stage3_2)
 
@@ -92,17 +92,15 @@ def draw():
     background.draw()
     mario.draw()
     gumba.draw()
-    gumba2.draw()
-    block1.draw()
-    item_block1.draw()
-    item_block2.draw()
-    tiles.draw()
-    tiles_bottom.draw()
-    coins.draw()
-    coins2.draw()
-    pipe.draw()
-    pipe2.draw()
-    pipe3.draw()
+
+    air_tile.draw()
+    air_tile2.draw()
+    air_tile3.draw()
+    air_tile4.draw()
+    air_tile5.draw()
+    air_tile6.draw()
+    air_tile7.draw()
+    block.draw()
 
     for game_object in game_world.all_objects():
         game_object.draw()
