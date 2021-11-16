@@ -169,7 +169,7 @@ class Mario:
             self.cur_state.enter(self, event)
 
     def skill(self):
-        fire = Fire(self.x, self.y, self.dir*30)
+        fire = Fire(self.x, self.y, self.dir)
         game_world.add_object(fire, 1)
 
 
