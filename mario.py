@@ -6,14 +6,16 @@ from fire import Fire
 BOTTOM = 225
 
 PIXEL_PER_METER = (10.0 / 0.3)
-RUN_SPEED_KMPH = 50.0
+RUN_SPEED_KMPH = 20.0
 RUN_SPEED_MPM = (RUN_SPEED_KMPH * 1000 / 60.0)
 RUN_SPEED_MPS = (RUN_SPEED_MPM / 60.0)
 RUN_SPEED_PPS = (RUN_SPEED_MPS * PIXEL_PER_METER)
 
-TIME_PER_ACTION = 0
-ACTION_PER_TIME = 0
-FRAMES_PER_ACTION = 0
+JUMP_SPEED_PPS = RUN_SPEED_PPS * 2
+
+TIME_PER_ACTION = 0.5
+ACTION_PER_TIME = 1.0 / TIME_PER_ACTION
+FRAMES_PER_ACTION = 4
 
 RIGHT_DOWN, LEFT_DOWN, RIGHT_UP, LEFT_UP, SPACE, JUMP_FINISH, Z = range(7)
 
@@ -70,7 +72,8 @@ class RunState:
             mario.skill()
 
     def do(mario):
-        mario.frame = (mario.frame + 1) % 4
+        #mario.frame = (mario.frame + 1) % 4
+        mario.frame = (mario.frame + FRAMES_PER_ACTION * ACTION_PER_TIME * game_framework.frame_time) % 4
         mario.x += mario.velocity * game_framework.frame_time
         mario.x = clamp(25, mario.x, 1950)
 
@@ -99,22 +102,30 @@ class JumpState:
             mario.skill()
 
     def do(mario):
-        mario.frame = (mario.frame + 1) % 4
+        mario.frame = (mario.frame + FRAMES_PER_ACTION * ACTION_PER_TIME * game_framework.frame_time) % 4
         mario.x += mario.velocity * game_framework.frame_time
         mario.x = clamp(25, mario.x, 1950)
 
-        if mario.v > 0:
-            # 속도가 0보다 클때는 위로 올라감
-            mario.f = (0.5 * mario.m * (mario.v * mario.v))
-        else:
-            # 속도가 0보다 작을때는 아래로 내려감
-            mario.f = -(0.5 * mario.m * (mario.v * mario.v))
+        # if mario.v > 0:
+        #     # 속도가 0보다 클때는 위로 올라감
+        #     mario.f = (0.5 * mario.m * (mario.v * mario.v))
+        #     #mario.f = (0.5 * mario.m * JUMP_SPEED_PPS)
+        # else:
+        #     # 속도가 0보다 작을때는 아래로 내려감
+        #     mario.f = -(0.5 * mario.m * (mario.v * mario.v))
+        #     #mario.f = -(0.5 * mario.m * JUMP_SPEED_PPS)
 
-        mario.y += mario.f
-        mario.v -= 1
+
+        if mario.v > 0:
+            mario.y += JUMP_SPEED_PPS * game_framework.frame_time
+        elif mario.v < 0:
+            mario.y -= JUMP_SPEED_PPS * game_framework.frame_time
+
+        mario.v -= 0.1
+
         if mario.y <= BOTTOM:
-            mario.v = 7
-            mario.isJump = 0
+            mario.v = 9.0
+            mario.y = BOTTOM
             mario.add_event(JUMP_FINISH)
 
     def draw(mario):
@@ -140,10 +151,7 @@ class Mario:
         self.posx = 350
         self.posy = 90
 
-        self.isJump = 0
-        self.v = 7
-        self.m = 2
-        self.f = 0
+        self.v = 9.0
 
         self.event_que = []
         self.cur_state = IdleState
@@ -167,7 +175,7 @@ class Mario:
 
     def draw(self):
         self.cur_state.draw(self)
-        debug_print('Velocity :' + str(self.velocity) + ' Dir:' + str(self.dir) + '  State:' + str(self.cur_state))
+        debug_print('Velocity :' + str(self.velocity) + ' Dir:' + str(self.dir) + '  State:' + str(self.cur_state) + ' mario.v : ' + str(self.v) + ' mario.y : ' + str(self.y))
 
     def handle_event(self, event):
         if (event.type, event.key) in key_event_table:
