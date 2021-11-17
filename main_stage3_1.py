@@ -23,6 +23,7 @@ from tiles_bottom import Tiles_bottom
 from block import Block
 from pipe import Pipe
 from monster_gumba import Monster_Gumba
+from monster_turtle import Monster_Turtle
 from coins import Coins
 from air_tile import Air_tile
 
@@ -47,7 +48,7 @@ def handle_events():
 
 
 def enter():
-    global background, tiles, tiles_bottom, mario, coins, coins2, item_block2, item_block1, block, gumba, gumba2, pipe, pipe2, pipe3
+    global background, tiles, tiles_bottom, mario, coins, coins2, item_block2, item_block1, block, gumba, gumba2, turtle, turtle2, turtle3
     global air_tile, air_tile2, air_tile3, air_tile4, air_tile5, air_tile6, air_tile7, air_tile8, air_tile9
     background = Background(960, 540)
     tiles_bottom = Tiles_bottom()
@@ -56,6 +57,10 @@ def enter():
     air_tile = Air_tile(10, 550, 10)
     air_tile2 = Air_tile(430, 550, 2)
     air_tile3 = Air_tile(680, 550, 10)
+
+    turtle = Monster_Turtle(550, 550, 150, 1)
+    turtle2 = Monster_Turtle(320, 520, 120, 1)
+    turtle3 = Monster_Turtle(1530, 550, 140, 1)
 
 
     coins = Coins(430, 620, 2)
@@ -87,6 +92,10 @@ def resume():
 def update():
     mario.update()
     gumba.update()
+    turtle.update()
+    turtle2.update()
+    turtle3.update()
+
     coins.update()
     coins2.update()
     if mario.x > 1920:
@@ -100,6 +109,10 @@ def draw():
     background.draw()
     mario.draw()
     gumba.draw()
+    turtle.draw()
+    turtle2.draw()
+    turtle3.draw()
+
 
     coins.draw()
     coins2.draw()

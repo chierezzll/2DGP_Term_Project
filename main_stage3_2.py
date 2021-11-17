@@ -27,6 +27,7 @@ from monster_gumba import Monster_Gumba
 from coins import Coins
 from air_tile import Air_tile
 from castle import Castle
+from monster_turtle import Monster_Turtle
 
 # Game object class here
 
@@ -48,7 +49,7 @@ def handle_events():
 
 def enter():
     global background, tiles, tiles_bottom, mario, coins, coins2, item_block2, item_block1, block, gumba, gumba2, gumba3, gumba4
-    global air_tile, castle
+    global air_tile, castle, turtle, turtle2
     background = Background(960, 540)
     tiles = Tiles()
     tiles_bottom = Tiles_bottom()
@@ -63,6 +64,8 @@ def enter():
     item_block1 = Item_Block(670, 420, 1)
 
 
+    turtle = Monster_Turtle(360, 620, 100, 1)
+    turtle2 = Monster_Turtle(990, 220, 120, 1)
 
     gumba = Monster_Gumba(600, 215, 50, 1)
     gumba2 = Monster_Gumba(1500, 215, 70, 2)
@@ -89,6 +92,9 @@ def update():
     gumba3.update()
     gumba4.update()
 
+    turtle.update()
+    turtle2.update()
+
     coins.update()
     coins2.update()
 
@@ -113,6 +119,9 @@ def draw():
     block.draw()
     item_block1.draw()
     castle.draw()
+
+    turtle.draw()
+    turtle2.draw()
 
     coins.draw()
     coins2.draw()
