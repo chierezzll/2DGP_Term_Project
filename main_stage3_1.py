@@ -57,6 +57,12 @@ def enter():
     air_tile2 = Air_tile(430, 550, 2)
     air_tile3 = Air_tile(680, 550, 10)
 
+
+    coins = Coins(430, 620, 2)
+    coins2 = Coins(955, 420, 4)
+
+    item_block1 = Item_Block(1430, 650, 1)
+
     air_tile4 = Air_tile(900, 370, 10)
     block = Block(980, 470, 3)
     gumba = Monster_Gumba(960, 400, 40, 2)
@@ -81,6 +87,8 @@ def resume():
 def update():
     mario.update()
     gumba.update()
+    coins.update()
+    coins2.update()
     if mario.x > 1920:
         game_framework.change_state(main_stage3_2)
 
@@ -92,6 +100,12 @@ def draw():
     background.draw()
     mario.draw()
     gumba.draw()
+
+    coins.draw()
+    coins2.draw()
+
+    item_block1.draw()
+
 
     air_tile.draw()
     air_tile2.draw()

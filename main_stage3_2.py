@@ -54,6 +54,9 @@ def enter():
     tiles_bottom = Tiles_bottom()
     mario = Mario(25, 590)
 
+    coins = Coins(280, 640, 7)
+    coins2 = Coins(620, 270, 4)
+
     air_tile = Air_tile(10, 550, 10)
 
     block = Block(620, 320, 5)
@@ -85,6 +88,10 @@ def update():
     gumba2.update()
     gumba3.update()
     gumba4.update()
+
+    coins.update()
+    coins2.update()
+
     if mario.x > 1920:
         game_framework.change_state(main_stage3_3)
 
@@ -106,6 +113,9 @@ def draw():
     block.draw()
     item_block1.draw()
     castle.draw()
+
+    coins.draw()
+    coins2.draw()
 
     for game_object in game_world.all_objects():
         game_object.draw()
