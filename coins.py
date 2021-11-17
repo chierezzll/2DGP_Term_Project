@@ -8,6 +8,7 @@ FRAMES_PER_ACTION = 4
 class Coins:
     def __init__(self, x, y, l):
         self.image = load_image('items.png')
+
         self.frame = 0
         self.x = x
         self.y = y

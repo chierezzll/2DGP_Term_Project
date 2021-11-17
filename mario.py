@@ -134,6 +134,8 @@ next_state_table = {
 class Mario:
     def __init__(self, x, y):
         self.image = load_image('mario_sheet.png')
+        self.image_heart = load_image('heart.png')
+        self.image_coin = load_image('coin_score.png')
         self.x = x
         self.y = y
         self.dir = 1
@@ -141,6 +143,8 @@ class Mario:
         self.frame = 0
         self.posx = 350
         self.posy = 90
+
+        self.font = load_font('ENCR10B.TTF', 40)
 
         self.v = 9.0
 
@@ -167,6 +171,12 @@ class Mario:
     def draw(self):
         self.cur_state.draw(self)
         debug_print('Velocity :' + str(self.velocity) + ' Dir:' + str(self.dir) + '  State:' + str(self.cur_state) + ' mario.v : ' + str(self.v) + ' mario.y : ' + str(self.y))
+
+        self.image_heart.draw(50, 1000, 70, 70)
+        self.font.draw(100, 990, 'x 5', (0, 0, 0))
+
+        self.image_coin.draw(300, 1000, 60, 60)
+        self.font.draw(350, 990, 'x 0', (0, 0, 0))
 
     def handle_event(self, event):
         if (event.type, event.key) in key_event_table:
