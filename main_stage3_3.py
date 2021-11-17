@@ -24,11 +24,12 @@ from block import Block
 from pipe import Pipe
 from monster_gumba import Monster_Gumba
 from coins import Coins
+from boss import Boss
 
 # Game object class here
 
 PIXEL_PER_METER = (10.0 / 0.3)
-RUN_SPEED_KMPH = 50.0
+RUN_SPEED_KMPH = 20.0
 RUN_SPEED_MPM = (RUN_SPEED_KMPH * 1000 / 60.0)
 RUN_SPEED_MPS = (RUN_SPEED_MPM / 60.0)
 RUN_SPEED_PPS = (RUN_SPEED_MPS * PIXEL_PER_METER)
@@ -44,22 +45,12 @@ def handle_events():
             mario.handle_event(event)
 
 def enter():
-    global background, tiles, tiles_bottom, mario, coins, coins2, item_block2, item_block1, block1, gumba, gumba2, pipe, pipe2, pipe3
-    global fire
+    global background, tiles, tiles_bottom, mario, boss
     background = Background(960, 540)
     tiles = Tiles()
     tiles_bottom = Tiles_bottom()
     mario = Mario(200, 225)
-    coins = Coins(580, 360, 3)
-    coins2 = Coins(1450, 235, 7)
-    item_block1 = Item_Block(450, 310, 3)
-    item_block2 = Item_Block(620, 430, 3)
-    block1 = Block(550, 310, 2)
-    gumba = Monster_Gumba(600, 215, 50, 1)
-    gumba2 = Monster_Gumba(1500, 215, 70, 2)
-    pipe = Pipe(1000, 225, 0)
-    pipe2 = Pipe(1350, 285, 1)
-    pipe3 = Pipe(1700, 330, 2)
+    boss = Boss(1100, 240, random.randint(100, 200), 1)
 
     mario.velocity += RUN_SPEED_PPS
 
@@ -75,10 +66,7 @@ def resume():
 
 def update():
     mario.update()
-    coins.update()
-    coins2.update()
-    gumba.update()
-    gumba2.update()
+    boss.update()
     # if mario.x > 1920:
     #     game_framework.change_state(main_stage1_2)
 
@@ -90,23 +78,14 @@ def draw():
     clear_canvas()
     background.draw()
     mario.draw()
-    gumba.draw()
-    gumba2.draw()
-    block1.draw()
-    item_block1.draw()
-    item_block2.draw()
     tiles.draw()
     tiles_bottom.draw()
-    coins.draw()
-    coins2.draw()
-    pipe.draw()
-    pipe2.draw()
-    pipe3.draw()
+
+    boss.draw()
 
     for game_object in game_world.all_objects():
         game_object.draw()
 
     update_canvas()
-    delay(0.06)
 
 
