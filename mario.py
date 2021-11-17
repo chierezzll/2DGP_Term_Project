@@ -11,7 +11,11 @@ RUN_SPEED_MPM = (RUN_SPEED_KMPH * 1000 / 60.0)
 RUN_SPEED_MPS = (RUN_SPEED_MPM / 60.0)
 RUN_SPEED_PPS = (RUN_SPEED_MPS * PIXEL_PER_METER)
 
-JUMP_SPEED_PPS = RUN_SPEED_PPS * 2
+JUMP_SPEED_MPS = 0.3
+JUMP_SPEED_PPS = (JUMP_SPEED_MPS * PIXEL_PER_METER)
+
+GRAVITY_MPS = -1.0
+GRAVITY_PPS = GRAVITY_MPS * PIXEL_PER_METER
 
 TIME_PER_ACTION = 0.5
 ACTION_PER_TIME = 1.0 / TIME_PER_ACTION
@@ -97,6 +101,8 @@ class JumpState:
             mario.velocity += RUN_SPEED_PPS
         mario.dir = clamp(-1, mario.velocity, 1)
 
+        mario.jump = True
+
     def exit(mario, event):
         if event == Z:
             mario.skill()
@@ -107,16 +113,20 @@ class JumpState:
         mario.x = clamp(25, mario.x, 1950)
 
 
-        if mario.v > 0:
-            mario.y += JUMP_SPEED_PPS * game_framework.frame_time
-        elif mario.v < 0:
-            mario.y -= JUMP_SPEED_PPS * game_framework.frame_time
+        # if mario.v > 0:
+        #     mario.y += JUMP_SPEED_PPS * game_framework.frame_time + (GRAVITY_PPSS * game_framework.frame_time ** 2 / 2)
+        # elif mario.v < 0:
+        #     mario.y -= JUMP_SPEED_PPS * game_framework.frame_time + (GRAVITY_PPSS * game_framework.frame_time ** 2 / 2)
 
-        mario.v -= 0.1
+        if mario.jump == True:
+            mario.jumptime += game_framework.frame_time
+            mario.y += JUMP_SPEED_PPS * mario.jumptime + (GRAVITY_PPS * mario.jumptime ** 2 / 2)
+
 
         if mario.y <= BOTTOM:
-            mario.v = 9.0
             mario.y = BOTTOM
+            mario.jumptime = 0
+            mario.jump = False
             mario.add_event(JUMP_FINISH)
 
     def draw(mario):
@@ -146,7 +156,8 @@ class Mario:
 
         self.font = load_font('ENCR10B.TTF', 40)
 
-        self.v = 9.0
+        self.jumptime = 0
+        self.jump = False
 
         self.event_que = []
         self.cur_state = IdleState
@@ -170,7 +181,7 @@ class Mario:
 
     def draw(self):
         self.cur_state.draw(self)
-        debug_print('Velocity :' + str(self.velocity) + ' Dir:' + str(self.dir) + '  State:' + str(self.cur_state) + ' mario.v : ' + str(self.v) + ' mario.y : ' + str(self.y))
+        debug_print('Velocity :' + str(self.velocity) + ' Dir:' + str(self.dir) + '  State:' + str(self.cur_state) + ' mario.y : ' + str(self.y))
 
         self.image_heart.draw(50, 1000, 70, 70)
         self.font.draw(100, 990, 'x 5', (0, 0, 0))
