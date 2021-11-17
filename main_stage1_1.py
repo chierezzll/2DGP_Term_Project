@@ -55,6 +55,8 @@ def handle_events():
             game_framework.quit()
         elif event.type == SDL_KEYDOWN and event.key == SDLK_ESCAPE:
                 game_framework.quit()
+        elif event.type == SDL_KEYDOWN and event.key == SDLK_w:
+            game_framework.change_state(main_stage1_2)
         else:
             mario.handle_event(event)
 

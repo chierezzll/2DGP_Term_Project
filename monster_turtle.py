@@ -34,5 +34,5 @@ class Monster_Turtle:
     def draw(self):
         k = 0
         for i in range(self.num):
-            self.image.clip_draw(480 + int(self.frame) * 30, 0, 30, 30, self.x + k, self.y)
+            self.image.clip_draw(480 + int(self.frame) * 30, 0, 30, 30, self.x + k, self.y, 40, 40)
             k += 30
