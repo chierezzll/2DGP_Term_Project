@@ -106,15 +106,6 @@ class JumpState:
         mario.x += mario.velocity * game_framework.frame_time
         mario.x = clamp(25, mario.x, 1950)
 
-        # if mario.v > 0:
-        #     # 속도가 0보다 클때는 위로 올라감
-        #     mario.f = (0.5 * mario.m * (mario.v * mario.v))
-        #     #mario.f = (0.5 * mario.m * JUMP_SPEED_PPS)
-        # else:
-        #     # 속도가 0보다 작을때는 아래로 내려감
-        #     mario.f = -(0.5 * mario.m * (mario.v * mario.v))
-        #     #mario.f = -(0.5 * mario.m * JUMP_SPEED_PPS)
-
 
         if mario.v > 0:
             mario.y += JUMP_SPEED_PPS * game_framework.frame_time
