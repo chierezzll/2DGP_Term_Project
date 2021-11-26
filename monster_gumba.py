@@ -23,6 +23,9 @@ class Monster_Gumba:
         self.num = num # 굼바 갯수
         self.frame = 0
 
+    def get_bb(self):
+        return self.x - 15, self.y - 15, self.x + 20, self.y + 15
+
     def update(self):
         self.frame = (self.frame + FRAMES_PER_ACTION * ACTION_PER_TIME * game_framework.frame_time) % 2
         self.x += RUN_SPEED_PPS * self.dir
@@ -33,6 +36,7 @@ class Monster_Gumba:
 
     def draw(self):
         k = 0
+        draw_rectangle(*self.get_bb())
         for i in range(self.num):
-            self.image.clip_draw(0 + int(self.frame) * 30, 0, 30, 30, self.x + k, self.y)
+            self.image.clip_draw(0 + int(self.frame) * 30, 0, 30, 30, self.x + k, self.y + 10, 50, 50)
             k += 30

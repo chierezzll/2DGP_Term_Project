@@ -2,7 +2,8 @@ from pico2d import *
 import game_framework
 import game_world
 from fire import Fire
-
+import server
+import collision
 BOTTOM = 225
 
 PIXEL_PER_METER = (10.0 / 0.3)
@@ -76,7 +77,6 @@ class RunState:
             mario.skill()
 
     def do(mario):
-        #mario.frame = (mario.frame + 1) % 4
         mario.frame = (mario.frame + FRAMES_PER_ACTION * ACTION_PER_TIME * game_framework.frame_time) % 4
         mario.x += mario.velocity * game_framework.frame_time
         mario.x = clamp(25, mario.x, 1950)
@@ -112,16 +112,9 @@ class JumpState:
         mario.x += mario.velocity * game_framework.frame_time
         mario.x = clamp(25, mario.x, 1950)
 
-
-        # if mario.v > 0:
-        #     mario.y += JUMP_SPEED_PPS * game_framework.frame_time + (GRAVITY_PPSS * game_framework.frame_time ** 2 / 2)
-        # elif mario.v < 0:
-        #     mario.y -= JUMP_SPEED_PPS * game_framework.frame_time + (GRAVITY_PPSS * game_framework.frame_time ** 2 / 2)
-
         if mario.jump == True:
             mario.jumptime += game_framework.frame_time
             mario.y += JUMP_SPEED_PPS * mario.jumptime + (GRAVITY_PPS * mario.jumptime ** 2 / 2)
-
 
         if mario.y <= BOTTOM:
             mario.y = BOTTOM
@@ -163,8 +156,13 @@ class Mario:
         self.cur_state = IdleState
         self.cur_state.enter(self, None)
 
+        self.parent = None
+
     def add_event(self, event):
         self.event_que.insert(0, event)
+
+    def get_bb(self):
+        return self.x - 20, self.y - 27, self.x + 20, self.y + 27
 
     def update(self):
         self.cur_state.do(self)
@@ -174,6 +172,10 @@ class Mario:
             self.cur_state = next_state_table[self.cur_state][event]
             self.cur_state.enter(self, event)
 
+        if collision.collide(self, server.block1):
+            self.set_parent(server.block1)
+
+
     def skill(self):
         fire = Fire(self.x, self.y, self.dir)
         game_world.add_object(fire, 1)
@@ -181,6 +183,7 @@ class Mario:
 
     def draw(self):
         self.cur_state.draw(self)
+        draw_rectangle(*self.get_bb())
         debug_print('Velocity :' + str(self.velocity) + ' Dir:' + str(self.dir) + '  State:' + str(self.cur_state) + ' mario.y : ' + str(self.y))
 
         self.image_heart.draw(50, 1000, 70, 70)
@@ -193,6 +196,12 @@ class Mario:
         if (event.type, event.key) in key_event_table:
             key_event = key_event_table[(event.type, event.key)]
             self.add_event(key_event)
+
+    def set_parent(self, block):
+        self.parent = block
+
+        # 소년의 초기 위치를, 발판의 특정 위치로 가게 한다.
+        self.x, self.y = block.x + block.BOY_X0, block.y + block.BOY_Y0
 
 
 

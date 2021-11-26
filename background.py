@@ -1,8 +1,8 @@
 from mario import Mario
 from pico2d import *
+import server
 
 class Background:
-    global mario
 
     def __init__(self, x, y): # 생성자
         # self.image = load_image('background.png')
@@ -11,8 +11,8 @@ class Background:
         self.y = y
 
     def update(self):
-        if mario.x > 600:
-            self.x = self.x - (mario.x - 600)
+        if server.mario.x > 600:
+            self.x = self.x - (server.mario.x - 600)
 
     def draw(self):
         self.image.clip_draw(0, 0, 1920, 1080, self.x, self.y)
