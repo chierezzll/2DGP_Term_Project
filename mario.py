@@ -22,7 +22,7 @@ TIME_PER_ACTION = 0.5
 ACTION_PER_TIME = 1.0 / TIME_PER_ACTION
 FRAMES_PER_ACTION = 4
 
-RIGHT_DOWN, LEFT_DOWN, RIGHT_UP, LEFT_UP, SPACE, JUMP_FINISH, Z = range(7)
+RIGHT_DOWN, LEFT_DOWN, RIGHT_UP, LEFT_UP, SPACE, JUMP_FINISH, Z, O = range(8)
 
 key_event_table = {
     (SDL_KEYDOWN, SDLK_RIGHT): RIGHT_DOWN,
@@ -128,8 +128,44 @@ class JumpState:
             mario.add_event(JUMP_FINISH)
 
 
+    def draw(mario):
+        if mario.dir == 1:
+            mario.image.clip_draw(350 + int(mario.frame) * 45, 90, 40, 90, mario.x, mario.y, 50, 50)
+        else:
+            mario.image.clip_draw(615 - 5 + int(mario.frame) * 45, 0, 40, 90, mario.x, mario.y, 50, 50)
 
+class FallState:
+    def enter(mario, event):
+        if event == RIGHT_DOWN:
+            mario.velocity += RUN_SPEED_PPS
+        elif event == LEFT_DOWN:
+            mario.velocity -= RUN_SPEED_PPS
+        elif event == RIGHT_UP:
+            mario.velocity -= RUN_SPEED_PPS
+        elif event == LEFT_UP:
+            mario.velocity += RUN_SPEED_PPS
 
+        mario.dir = clamp(-1, mario.velocity, 1)
+        mario.jump = True
+
+    def exit(mario, event):
+        if event == Z:
+            mario.skill()
+
+    def do(mario):
+        mario.frame = (mario.frame + FRAMES_PER_ACTION * ACTION_PER_TIME * game_framework.frame_time) % 4
+        mario.x += mario.velocity * game_framework.frame_time
+        mario.x = clamp(25, mario.x, 1950)
+
+        if mario.jump == True:
+            mario.jumptime += game_framework.frame_time
+            mario.y += (GRAVITY_PPS * mario.jumptime ** 2 / 2)
+
+        if mario.y <= BOTTOM:
+            mario.y = BOTTOM
+            mario.jumptime = 0
+            mario.jump = False
+            mario.add_event(JUMP_FINISH)
 
     def draw(mario):
         if mario.dir == 1:
@@ -137,10 +173,12 @@ class JumpState:
         else:
             mario.image.clip_draw(615 - 5 + int(mario.frame) * 45, 0, 40, 90, mario.x, mario.y, 50, 50)
 
+
 next_state_table = {
-    IdleState: {RIGHT_UP: RunState, LEFT_UP: RunState, RIGHT_DOWN: RunState, LEFT_DOWN: RunState, SPACE: JumpState, Z: IdleState},
-    RunState: {RIGHT_UP: IdleState, LEFT_UP: IdleState, LEFT_DOWN: RunState, RIGHT_DOWN: RunState, SPACE: JumpState, JUMP_FINISH: IdleState, Z: RunState},
-    JumpState: {RIGHT_UP: JumpState, LEFT_UP: JumpState, LEFT_DOWN: JumpState, RIGHT_DOWN: JumpState, SPACE: JumpState, JUMP_FINISH: RunState, Z: JumpState}
+    IdleState: {RIGHT_UP: RunState, LEFT_UP: RunState, RIGHT_DOWN: RunState, LEFT_DOWN: RunState, SPACE: JumpState, Z: IdleState, O:FallState},
+    RunState: {RIGHT_UP: IdleState, LEFT_UP: IdleState, LEFT_DOWN: RunState, RIGHT_DOWN: RunState, SPACE: JumpState, JUMP_FINISH: IdleState, Z: RunState, O:FallState},
+    JumpState: {RIGHT_UP: JumpState, LEFT_UP: JumpState, LEFT_DOWN: JumpState, RIGHT_DOWN: JumpState, SPACE: JumpState, JUMP_FINISH: RunState, Z: JumpState, O:FallState},
+    FallState: {RIGHT_UP: FallState, LEFT_UP: FallState, RIGHT_DOWN: FallState, LEFT_DOWN: FallState, SPACE: JumpState, JUMP_FINISH: RunState, Z: IdleState, O:FallState}
 }
 
 class Mario:
@@ -191,9 +229,7 @@ class Mario:
             print("collision")
             if self.x > server.block1.x + 20 or self.x < server.block1.x - 20:
                 self.parent = None
-
-
-
+                self.add_event(O)
 
     def skill(self):
         fire = Fire(self.x, self.y, self.dir)
