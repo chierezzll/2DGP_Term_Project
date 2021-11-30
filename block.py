@@ -12,10 +12,14 @@ class Block:
     def get_bb(self):
         return self.x - 12, self.y - 15, self.x + 10, self.y + 15
 
+    def get_bb_head(self):
+        return self.x - 12, self.y + 5, self.x + 10, self.y + 13
+
 
     def draw(self):
         k = 0
-        draw_rectangle(*self.get_bb())
+        #draw_rectangle(*self.get_bb())
+        draw_rectangle(*self.get_bb_head())
         for i in range(self.l):
             self.image.clip_draw(46, 110, 20, 31, self.x + k, self.y)
             k += 20

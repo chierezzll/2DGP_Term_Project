@@ -19,6 +19,8 @@ from monster_gumba import Monster_Gumba
 from coins import Coins
 from air_tile import Air_tile
 
+import server
+
 PIXEL_PER_METER = (10.0 / 0.3)
 RUN_SPEED_KMPH = 20.0
 RUN_SPEED_MPM = (RUN_SPEED_KMPH * 1000 / 60.0)
@@ -39,31 +41,46 @@ def handle_events():
         elif event.type == SDL_KEYDOWN and event.key == SDLK_w:
             game_framework.change_state(main_stage2_2)
         else:
-            mario.handle_event(event)
+            server.mario.handle_event(event)
 
 def enter():
-    global background2, tiles, tiles_bottom, mario, coins, coins2, item_block2, item_block1, block1, gumba, gumba2
-    global air_tile, air_tile2, air_tile3, air_tile4, air_tile5, air_tile6, air_tile7, air_tile8, air_tile9
-    background2 = Background(960, 540)
-    mario = Mario(170, 340)
-    coins = Coins(850, 600, 3)
-    coins2 = Coins(1025, 350, 5)
-    gumba = Monster_Gumba(860, 580, 50, 2)
-    gumba2 = Monster_Gumba(720, 230, 50, 2)
-    item_block1 = Item_Block(1750, 850, 1)
+    server.background2 = Background(960, 540)
+    server.mario = Mario(170, 340)
+    server.coins = Coins(850, 600, 3)
+    server.coins2 = Coins(1025, 350, 5)
+    server.gumba = Monster_Gumba(860, 580, 50, 2)
+    server.gumba2 = Monster_Gumba(720, 230, 50, 2)
+    server.item_block1 = Item_Block(1750, 850, 1)
 
-    air_tile = Air_tile(350, 300, 10)
-    air_tile2 = Air_tile(1000, 300, 10)
-    air_tile3 = Air_tile(600, 430, 7)
-    air_tile4 = Air_tile(800, 550, 10)
-    air_tile5 = Air_tile(1200, 550, 7)
-    air_tile6 = Air_tile(660, 200, 10)
+    server.air_tile = Air_tile(350, 300, 10)
+    server.air_tile2 = Air_tile(1000, 300, 10)
+    server.air_tile3 = Air_tile(600, 430, 7)
+    server.air_tile4 = Air_tile(800, 550, 10)
+    server.air_tile5 = Air_tile(1200, 550, 7)
+    server.air_tile6 = Air_tile(660, 200, 10)
 
-    air_tile7 = Air_tile(150, 300, 5)
-    air_tile8 = Air_tile(1400, 650, 7)
-    air_tile9 = Air_tile(1650, 750, 15)
+    server.air_tile7 = Air_tile(150, 300, 5)
+    server.air_tile8 = Air_tile(1400, 650, 7)
+    server.air_tile9 = Air_tile(1650, 750, 15)
 
-    mario.velocity += RUN_SPEED_PPS
+    game_world.add_object(server.background2, 0)
+    game_world.add_object(server.mario, 1)
+    game_world.add_object(server.coins, 1)
+    game_world.add_object(server.coins2, 1)
+    game_world.add_object(server.item_block1, 1)
+    game_world.add_object(server.air_tile, 1)
+    game_world.add_object(server.air_tile2, 1)
+    game_world.add_object(server.air_tile3, 1)
+    game_world.add_object(server.air_tile4, 1)
+    game_world.add_object(server.air_tile5, 1)
+    game_world.add_object(server.air_tile6, 1)
+    game_world.add_object(server.air_tile7, 1)
+    game_world.add_object(server.air_tile8, 1)
+    game_world.add_object(server.air_tile9, 1)
+    game_world.add_object(server.gumba, 1)
+    game_world.add_object(server.gumba2, 1)
+
+    server.mario.velocity += RUN_SPEED_PPS
 
 
 def exit():
@@ -76,37 +93,19 @@ def resume():
     pass
 
 def update():
-    mario.update()
-    gumba.update()
-    gumba2.update()
-    coins.update()
-    coins2.update()
+    server.mario.update()
+    server.gumba.update()
+    server.gumba2.update()
+    server.coins.update()
+    server.coins2.update()
 
-    if mario.x > 1920:
+    if server.mario.x > 1920:
         game_framework.change_state(main_stage2_2)
 
-    for game_object in game_world.all_objects():
-        game_object.update()
 
 
 def draw():
     clear_canvas()
-    background2.draw()
-    mario.draw()
-    gumba.draw()
-    gumba2.draw()
-    coins.draw()
-    coins2.draw()
-    item_block1.draw()
-    air_tile.draw()
-    air_tile2.draw()
-    air_tile3.draw()
-    air_tile4.draw()
-    air_tile5.draw()
-    air_tile6.draw()
-    air_tile7.draw()
-    air_tile8.draw()
-    air_tile9.draw()
 
     for game_object in game_world.all_objects():
         game_object.draw()

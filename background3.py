@@ -1,4 +1,5 @@
 from pico2d import *
+import server
 
 class Background:
     global mario
@@ -7,10 +8,6 @@ class Background:
         self.image = load_image('background3.png')
         self.x = x
         self.y = y
-
-    def update(self):
-        if mario.x > 600:
-            self.x = self.x - (mario.x - 600)
 
     def draw(self):
         self.image.clip_draw(0, 0, 1920, 1080, self.x, self.y)

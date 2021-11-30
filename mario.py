@@ -57,7 +57,7 @@ class IdleState:
         if mario.dir == 1:
             mario.image.clip_draw(350, 90, 40, 90, mario.x, mario.y, 50, 50)
         else:
-            mario.image.clip_draw(750, 0, 40, 90, mario.x, mario.y, 50, 50)
+            mario.image.clip_draw(750 - 5, 0, 40, 90, mario.x, mario.y, 50, 50)
 
 class RunState:
 
@@ -86,7 +86,7 @@ class RunState:
         if mario.dir == 1:
             mario.image.clip_draw(350 + int(mario.frame) * 45, 90, 40, 90, mario.x, mario.y, 50, 50)
         else:
-            mario.image.clip_draw(615 + int(mario.frame) * 45, 0, 40, 90, mario.x, mario.y, 50, 50)
+            mario.image.clip_draw(615 - 5 + int(mario.frame) * 45, 0, 40, 90, mario.x, mario.y, 50, 50)
 
 
 class JumpState:
@@ -122,11 +122,20 @@ class JumpState:
             mario.jump = False
             mario.add_event(JUMP_FINISH)
 
+        if collision.collide_foot_head(mario, server.block1):
+            mario.jumptime = 0
+            mario.jump = False
+            mario.add_event(JUMP_FINISH)
+
+
+
+
+
     def draw(mario):
         if mario.dir == 1:
             mario.image.clip_draw(350 + int(mario.frame) * 45, 90, 40, 90, mario.x, mario.y, 50, 50)
         else:
-            mario.image.clip_draw(615 + int(mario.frame) * 45, 0, 40, 90, mario.x, mario.y, 50, 50)
+            mario.image.clip_draw(615 - 5 + int(mario.frame) * 45, 0, 40, 90, mario.x, mario.y, 50, 50)
 
 next_state_table = {
     IdleState: {RIGHT_UP: RunState, LEFT_UP: RunState, RIGHT_DOWN: RunState, LEFT_DOWN: RunState, SPACE: JumpState, Z: IdleState},
@@ -162,7 +171,10 @@ class Mario:
         self.event_que.insert(0, event)
 
     def get_bb(self):
-        return self.x - 20, self.y - 27, self.x + 20, self.y + 27
+        return self.x - 15, self.y - 27, self.x + 15, self.y + 27
+
+    def get_bb_foot(self):
+        return self.x - 12, self.y - 27, self.x + 15, self.y - 17
 
     def update(self):
         self.cur_state.do(self)
@@ -172,19 +184,30 @@ class Mario:
             self.cur_state = next_state_table[self.cur_state][event]
             self.cur_state.enter(self, event)
 
-        if collision.collide(self, server.block1):
+        if collision.collide_foot_head(self, server.block1):
             self.set_parent(server.block1)
+            self.y = server.block1.y + 40
+
+            print("collision")
+            if self.x > server.block1.x + 20 or self.x < server.block1.x - 20:
+                self.parent = None
+
+
 
 
     def skill(self):
         fire = Fire(self.x, self.y, self.dir)
         game_world.add_object(fire, 1)
 
+    def fall(self):
+        self.y -= GRAVITY_PPS * game_framework.frame_time
+
 
     def draw(self):
         self.cur_state.draw(self)
-        draw_rectangle(*self.get_bb())
-        debug_print('Velocity :' + str(self.velocity) + ' Dir:' + str(self.dir) + '  State:' + str(self.cur_state) + ' mario.y : ' + str(self.y))
+        #draw_rectangle(*self.get_bb())
+        draw_rectangle(*self.get_bb_foot())
+        debug_print('Parent :' + str(self.parent) + ' Dir:' + str(self.dir) + '  State:' + str(self.cur_state) + ' mario.y : ' + str(self.y))
 
         self.image_heart.draw(50, 1000, 70, 70)
         self.font.draw(100, 990, 'x 5', (0, 0, 0))
@@ -199,9 +222,6 @@ class Mario:
 
     def set_parent(self, block):
         self.parent = block
-
-        # 소년의 초기 위치를, 발판의 특정 위치로 가게 한다.
-        self.x, self.y = block.x + block.BOY_X0, block.y + block.BOY_Y0
 
 
 
