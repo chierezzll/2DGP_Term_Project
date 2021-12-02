@@ -127,6 +127,35 @@ class JumpState:
             mario.jump = False
             mario.add_event(JUMP_FINISH)
 
+        if collision.collide_foot_head(mario, server.item_block1):
+            mario.jumptime = 0
+            mario.jump = False
+            mario.add_event(JUMP_FINISH)
+
+        if collision.collide_foot_head(mario, server.item_block2):
+            mario.jumptime = 0
+            mario.jump = False
+            mario.add_event(JUMP_FINISH)
+
+        if collision.collide_foot_head(mario, server.pipe):
+            mario.jumptime = 0
+            mario.jump = False
+            mario.add_event(JUMP_FINISH)
+        if collision.collide_foot_head(mario, server.pipe2):
+            mario.jumptime = 0
+            mario.jump = False
+            mario.add_event(JUMP_FINISH)
+        if collision.collide_foot_head(mario, server.pipe3):
+            mario.jumptime = 0
+            mario.jump = False
+            mario.add_event(JUMP_FINISH)
+
+
+        if collision.collide_foot_head(mario, server.gumba):
+            mario.jumptime = 0.005
+        if collision.collide_foot_head(mario, server.gumba2):
+            mario.jumptime = 0.005
+
 
     def draw(mario):
         if mario.dir == 1:
@@ -226,13 +255,52 @@ class Mario:
             self.cur_state.enter(self, event)
 
 
+        # if collision.collide(self, server.pipe):
+        #     if self.x < server.pipe.x:
+        #         self.x = server.pipe.x - 30
+        #     else:
+        #         self.x = server.pipe.x + 40
+
 #--------------발, 머리----------
         if collision.collide_foot_head(self, server.block1):
             self.set_parent(server.block1)
             self.y = server.block1.y + 40
-
-            print("collision")
             if self.x > server.block1.x + 20 or self.x < server.block1.x - 20:
+                self.parent = None
+                self.add_event(O)
+
+        if collision.collide_foot_head(self, server.item_block1):
+            self.set_parent(server.item_block1)
+            self.y = server.item_block1.y + 40
+            if self.x > server.item_block1.x + 10 or self.x < server.item_block1.x - 20:
+                self.parent = None
+                self.add_event(O)
+
+        if collision.collide_foot_head(self, server.item_block2):
+            self.set_parent(server.item_block2)
+            self.y = server.item_block2.y + 40
+            if self.x > server.item_block2.x + 10 or self.x < server.item_block2.x - 20:
+                self.parent = None
+                self.add_event(O)
+
+        if collision.collide_foot_head(self, server.pipe):
+            self.set_parent(server.pipe)
+            self.y = server.pipe.y + 52
+            if self.x > server.pipe.x + 30 or self.x < server.pipe.x - 15:
+                self.parent = None
+                self.add_event(O)
+
+        if collision.collide_foot_head(self, server.pipe2):
+            self.set_parent(server.pipe2)
+            self.y = server.pipe2.y + 52
+            if self.x > server.pipe2.x + 30 or self.x < server.pipe2.x - 15:
+                self.parent = None
+                self.add_event(O)
+
+        if collision.collide_foot_head(self, server.pipe3):
+            self.set_parent(server.pipe3)
+            self.y = server.pipe3.y + 52
+            if self.x > server.pipe3.x + 30 or self.x < server.pipe3.x - 15:
                 self.parent = None
                 self.add_event(O)
 
@@ -240,11 +308,16 @@ class Mario:
             game_world.remove_object(server.gumba)
 
         if collision.collide_foot_head(self, server.gumba2):
+            self.add_event(SPACE)
             game_world.remove_object(server.gumba2)
 
 
 #--------------머리, 발--------------
         if collision.collide_head_foot(self, server.block1):
+            self.add_event(O)
+        if collision.collide_head_foot(self, server.item_block1):
+            self.add_event(O)
+        if collision.collide_head_foot(self, server.item_block2):
             self.add_event(O)
 
 
