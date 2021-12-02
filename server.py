@@ -31,4 +31,5 @@ air_tile6= None
 air_tile7 = None
 air_tile8 = None
 air_tile9 = None
+fire = None
 

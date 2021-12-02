@@ -10,16 +10,23 @@ class Block:
         self.l = l
 
     def get_bb(self):
-        return self.x - 12, self.y - 15, self.x + 10, self.y + 15
+        return self.x - 11, self.y - 15, self.x + 10, self.y + 15
 
     def get_bb_head(self):
-        return self.x - 12, self.y + 5, self.x + 10, self.y + 13
+        return self.x - 11, self.y + 5, self.x + 10, self.y + 13
+
+    def get_bb_foot(self):
+        return self.x - 11, self.y - 13, self.x + 10, self.y - 11
+
+    def update(self):
+        pass
 
 
     def draw(self):
         k = 0
         #draw_rectangle(*self.get_bb())
         draw_rectangle(*self.get_bb_head())
+        draw_rectangle(*self.get_bb_foot())
         for i in range(self.l):
             self.image.clip_draw(46, 110, 20, 31, self.x + k, self.y)
             k += 20

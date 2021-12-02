@@ -11,3 +11,6 @@ class Tiles:
             if k < 300 or 400 < k < 950 or k > 1050:
                 self.image.clip_draw(0, 10, 95, 100, 0 + k, self.y - 50 )
             k += 90
+
+    def update(self):
+        pass

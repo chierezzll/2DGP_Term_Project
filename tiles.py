@@ -10,3 +10,6 @@ class Tiles:
         for i in range(23):
             self.image.clip_draw(0, 10, 95, 100, 0 + k, self.y - 50)
             k += 90
+
+    def update(self):
+        pass

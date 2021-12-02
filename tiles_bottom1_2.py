@@ -17,3 +17,6 @@ class Tiles_bottom:
                  self.image.draw(k, 70)
                  self.image.draw(k, 40)
             k += 30
+
+    def update(self):
+        pass

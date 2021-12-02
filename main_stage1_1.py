@@ -16,6 +16,7 @@ from block import Block
 from pipe import Pipe
 from monster_gumba import Monster_Gumba
 from coins import Coins
+from fire import Fire
 
 import server
 # Game object class here
@@ -79,36 +80,15 @@ def resume():
     pass
 
 def update():
-    server.mario.update()
-    server.coins.update()
-    server.coins2.update()
-    server.gumba.update()
-    server.gumba2.update()
     if server.mario.x > 1920:
         game_framework.change_state(main_stage1_2)
 
-    # for game_object in game_world.all_objects():
-    #     game_object.update()
-
+    for game_object in game_world.all_objects():
+        game_object.update()
 
 
 def draw():
     clear_canvas()
-
-    # background.draw()
-    # mario.draw()
-    # gumba.draw()
-    # gumba2.draw()
-    # block1.draw()
-    # item_block1.draw()
-    # item_block2.draw()
-    # tiles.draw()
-    # tiles_bottom.draw()
-    # coins.draw()
-    # coins2.draw()
-    # pipe.draw()
-    # pipe2.draw()
-    # pipe3.draw()
 
     for game_object in game_world.all_objects():
         game_object.draw()

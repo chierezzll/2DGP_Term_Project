@@ -21,3 +21,6 @@ class Pipe:
             for i in range(7):
                 self.image.clip_draw(84, 97, 52, 15, self.x, self.y - 33 - k)
                 k += 15
+
+    def update(self):
+        pass

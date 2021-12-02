@@ -12,3 +12,6 @@ class Item_Block():
         for i in range(self.l):
             self.image.clip_draw(64, 110, 20, 31, self.x + k, self.y)
             k += 17
+
+    def update(self):
+        pass

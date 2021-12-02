@@ -92,13 +92,12 @@ def resume():
     pass
 
 def update():
-    server.mario.update()
-    server.coins.update()
-    server.gumba.update()
-    server.gumba2.update()
 
     if server.mario.x > 1920:
         game_framework.change_state(main_stage1_3)
+
+    for game_object in game_world.all_objects():
+        game_object.update()
 
 
 def draw():

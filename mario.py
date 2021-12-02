@@ -211,8 +211,11 @@ class Mario:
     def get_bb(self):
         return self.x - 15, self.y - 27, self.x + 15, self.y + 27
 
+    def get_bb_head(self):
+        return self.x - 10, self.y + 22, self.x + 13, self.y + 25
+
     def get_bb_foot(self):
-        return self.x - 12, self.y - 27, self.x + 15, self.y - 17
+        return self.x - 12, self.y - 27, self.x + 15, self.y - 25
 
     def update(self):
         self.cur_state.do(self)
@@ -222,6 +225,8 @@ class Mario:
             self.cur_state = next_state_table[self.cur_state][event]
             self.cur_state.enter(self, event)
 
+
+#--------------발, 머리----------
         if collision.collide_foot_head(self, server.block1):
             self.set_parent(server.block1)
             self.y = server.block1.y + 40
@@ -230,6 +235,18 @@ class Mario:
             if self.x > server.block1.x + 20 or self.x < server.block1.x - 20:
                 self.parent = None
                 self.add_event(O)
+
+        if collision.collide_foot_head(self, server.gumba):
+            game_world.remove_object(server.gumba)
+
+        if collision.collide_foot_head(self, server.gumba2):
+            game_world.remove_object(server.gumba2)
+
+
+#--------------머리, 발--------------
+        if collision.collide_head_foot(self, server.block1):
+            self.add_event(O)
+
 
     def skill(self):
         fire = Fire(self.x, self.y, self.dir)
@@ -243,6 +260,7 @@ class Mario:
         self.cur_state.draw(self)
         #draw_rectangle(*self.get_bb())
         draw_rectangle(*self.get_bb_foot())
+        draw_rectangle(*self.get_bb_head())
         debug_print('Parent :' + str(self.parent) + ' Dir:' + str(self.dir) + '  State:' + str(self.cur_state) + ' mario.y : ' + str(self.y))
 
         self.image_heart.draw(50, 1000, 70, 70)

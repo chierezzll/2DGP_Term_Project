@@ -14,3 +14,6 @@ class Background:
     def draw(self):
         self.image.clip_draw(0, 0, 1920, 1080, self.x, self.y)
         self.image.clip_draw(0, 0, 1920, 1080, self.x + 1920, self.y)
+
+    def update(self):
+        pass

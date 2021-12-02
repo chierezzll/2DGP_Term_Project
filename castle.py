@@ -8,3 +8,6 @@ class Castle:
 
     def draw(self):
         self.image.draw(self.x, self.y, 150, 150)
+
+    def update(self):
+        pass
