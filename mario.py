@@ -304,12 +304,11 @@ class Mario:
                 self.parent = None
                 self.add_event(O)
 
-        if collision.collide_foot_head(self, server.gumba):
-            game_world.remove_object(server.gumba)
 
-        if collision.collide_foot_head(self, server.gumba2):
-            self.add_event(SPACE)
-            game_world.remove_object(server.gumba2)
+
+        # if collision.collide_foot_head(self, server.gumba2):
+        #     self.add_event(SPACE)
+        #     game_world.remove_object(server.gumba2)
 
 
 #--------------머리, 발--------------

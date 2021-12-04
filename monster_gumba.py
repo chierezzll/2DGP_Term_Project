@@ -1,5 +1,8 @@
 from pico2d import *
 import game_framework
+import server
+import collision
+import game_world
 
 PIXEL_PER_METER = (10.0 / 0.3)
 RUN_SPEED_KMPH = 0.03
@@ -23,6 +26,9 @@ class Monster_Gumba:
         self.num = num # 굼바 갯수
         self.frame = 0
 
+        self.collision = 0
+        self.y2 = self.y
+
     def get_bb(self):
         return self.x - 15, self.y - 15, self.x + 20, self.y + 15
 
@@ -32,15 +38,28 @@ class Monster_Gumba:
     def update(self):
         self.frame = (self.frame + FRAMES_PER_ACTION * ACTION_PER_TIME * game_framework.frame_time) % 2
         self.x += RUN_SPEED_PPS * self.dir
-        if self.x >= self.tx + self.d:
-            self.dir = -1
-        elif self.x <= self.tx - self.d:
-            self.dir = 1
+
+        if self.collision == 0:
+            if self.x >= self.tx + self.d:
+                self.dir = -1
+            elif self.x <= self.tx - self.d:
+                self.dir = 1
+
+        if collision.collide_head_foot(self, server.mario):
+            self.collision = 1
+
+        if self.collision == 1:
+            self.y2 -= RUN_SPEED_PPS
+            if self.y2 < self.y - 50:
+                game_world.remove_object(self)
 
     def draw(self):
         k = 0
         #draw_rectangle(*self.get_bb())
         draw_rectangle(*self.get_bb_head())
-        for i in range(self.num):
-            self.image.clip_draw(0 + int(self.frame) * 30, 0, 30, 30, self.x + k, self.y + 10, 50, 50)
-            k += 30
+        if self.collision == 0:
+            for i in range(self.num):
+                self.image.clip_draw(0 + int(self.frame) * 30, 0, 30, 30, self.x + k, self.y + 10, 50, 50)
+                k += 30
+        elif self.collision == 1:
+            self.image.clip_draw(60, 0, 30, 30, self.x, self.y2 + 10 , 50, 50)
