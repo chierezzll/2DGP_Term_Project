@@ -16,7 +16,7 @@ FRAMES_PER_ACTION = 4
 class Item_Block():
     def __init__(self, x, y, l):
         self.image = load_image('OverWorld.png')
-        self.image_coin = load_image('items.png')
+        self.image_item = load_image('items.png')
         self.x = x
         self.y = y
         self.l = l
@@ -25,6 +25,8 @@ class Item_Block():
 
         self.dir = 1
         self.coin_y = self.y
+
+        self.item_y = self.y
 
     def get_bb(self):
         return self.x - 11, self.y - 15, self.x + 6, self.y + 15
@@ -44,10 +46,22 @@ class Item_Block():
                 self.image.clip_draw(64, 110, 20, 31, self.x + k, self.y)
                 k += 17
 
-        if self.collision == 1:     # 동전 출현
+        # if self.collision == 1:     # 동전 출현
+        #     self.image.clip_draw(31, 110, 17, 31, self.x + k - 2, self.y)
+        #     if self.coin_y < self.y + 70:
+        #         self.image_item.clip_draw(0 + int(self.frame) * 15, 16, 15, 16, self.x + k - 3, self.coin_y)
+
+        # if self.collision == 1:       # 초록 버섯 출현
+        #     self.image.clip_draw(31, 110, 17, 31, self.x + k - 2, self.y)
+        #     self.image_item.clip_draw(15, 30, 15, 16, self.x + k - 3, self.item_y)
+
+        # if self.collision == 1:       # 빨간 버섯 출현
+        #     self.image.clip_draw(31, 110, 17, 31, self.x + k - 2, self.y)
+        #     self.image_item.clip_draw(0, 30, 15, 16, self.x + k - 3, self.item_y)
+
+        if self.collision == 1:       # 꽃 출현
             self.image.clip_draw(31, 110, 17, 31, self.x + k - 2, self.y)
-            if self.coin_y < self.y + 70:
-                self.image_coin.clip_draw(0 + int(self.frame) * 15, 16, 15, 16, self.x + k - 3, self.coin_y)
+            self.image_item.clip_draw(32, 30, 16, 18, self.x + k - 3, self.item_y)
 
     def update(self):
         self.frame = (self.frame + FRAMES_PER_ACTION * ACTION_PER_TIME * game_framework.frame_time) % 4
@@ -57,3 +71,5 @@ class Item_Block():
 
         if self.collision == 1:
             self.coin_y += RUN_SPEED_PPS * self.dir
+            if self.item_y < self.y + 22:
+                self.item_y += (RUN_SPEED_PPS / 2) * self.dir
