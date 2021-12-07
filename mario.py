@@ -129,6 +129,8 @@ class JumpState:
 
         mario.jump = True
 
+
+
     def exit(mario, event):
         if event == Z:
             mario.skill()
@@ -380,6 +382,14 @@ class Mario:
 
         self.life = 5
         self.coin = 0
+
+        self.bgm = load_music('music_mariobgm.mp3')
+        self.bgm.set_volume(30)
+        self.bgm.repeat_play()
+
+        self.jump_sound = load_wav('music_jump.wav')
+        self.jump_sound.set_volume(1)
+
     def add_event(self, event):
         self.event_que.insert(0, event)
 
@@ -409,6 +419,8 @@ class Mario:
             self.cur_state = next_state_table[self.cur_state][event]
             self.cur_state.enter(self, event)
 
+        if self.jump == True:
+            self.jump_sound.play()
 
 
 #--------------발, 머리----------

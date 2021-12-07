@@ -1,3 +1,5 @@
+from pico2d import *
+
 class GameState:
     def __init__(self, state):
         self.enter = state.enter
@@ -7,6 +9,8 @@ class GameState:
         self.handle_events = state.handle_events
         self.update = state.update
         self.draw = state.draw
+
+
 
 
 
@@ -87,6 +91,7 @@ frame_time = 0.0
 
 def run(start_state):
     global running, stack
+
     running = True
     stack = [start_state]
     start_state.enter()
