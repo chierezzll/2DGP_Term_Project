@@ -91,6 +91,9 @@ def enter():
     server.item_block3 = Item_Block(11460, 310, 1, 1)
     server.item_block4 = Item_Block(31180, 430, 1, 1)
     server.item_block5 = Item_Block(111200, 420, 2, 1)
+    server.pipe = Pipe(111000, 225, 0)
+    server.pipe2 = Pipe(111350, 285, 1)
+    server.pipe3 = Pipe(111700, 330, 2)
 
 
 def exit():
