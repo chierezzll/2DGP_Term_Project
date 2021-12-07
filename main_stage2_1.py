@@ -46,17 +46,17 @@ def handle_events():
 def enter():
     server.background2 = Background(960, 540)
     server.mario = Mario(170, 340)
-    server.coins = Coins(850, 600, 3)
-    server.coins2 = Coins(1025, 350, 5)
+    server.coins = [Coins(850 + 30 * i, 600) for i in range(3)]
+    server.coins2 = [Coins(1025 + 30 * i, 350) for i in range(5)]
     server.gumba = Monster_Gumba(860, 580, 50, 2)
     server.gumba2 = Monster_Gumba(720, 230, 50, 2)
-    server.item_block1 = Item_Block(1750, 850, 1)
+    server.item_block1 = Item_Block(11750, 850, 1, 1)
 
     server.air_tile = Air_tile(350, 300, 10)
     server.air_tile2 = Air_tile(1000, 300, 10)
     server.air_tile3 = Air_tile(600, 430, 7)
     server.air_tile4 = Air_tile(800, 550, 10)
-    server.air_tile5 = Air_tile(1200, 550, 7)
+    server.air_tile5 = Air_tile(1150, 550, 7)
     server.air_tile6 = Air_tile(660, 200, 10)
 
     server.air_tile7 = Air_tile(150, 300, 5)
@@ -65,8 +65,8 @@ def enter():
 
     game_world.add_object(server.background2, 0)
     game_world.add_object(server.mario, 1)
-    game_world.add_object(server.coins, 1)
-    game_world.add_object(server.coins2, 1)
+    game_world.add_objects(server.coins, 1)
+    game_world.add_objects(server.coins2, 1)
     game_world.add_object(server.item_block1, 1)
     game_world.add_object(server.air_tile, 1)
     game_world.add_object(server.air_tile2, 1)
@@ -81,6 +81,16 @@ def enter():
     game_world.add_object(server.gumba2, 1)
 
     server.mario.velocity += RUN_SPEED_PPS
+
+    server.block1 = Block(18210, 450, 8)
+    server.block2 = Block(18210, 450, 8)
+    server.block3 = Block(11050, 450, 4)
+    server.block4 = Block(11131, 310, 1)
+    server.block5 = Block(11300, 310, 1)
+    server.item_block2 = Item_Block(11460, 310, 1, 1)
+    server.item_block3 = Item_Block(11460, 310, 1, 1)
+    server.item_block4 = Item_Block(31180, 430, 1, 1)
+    server.item_block5 = Item_Block(111200, 420, 2, 1)
 
 
 def exit():
