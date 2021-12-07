@@ -86,6 +86,10 @@ def enter():
     game_world.add_object(server.gumba2, 1)
     game_world.add_object(server.castle, 0)
 
+    server.pipe = Pipe(111000, 225, 0)
+    server.pipe2 = Pipe(111350, 285, 1)
+    server.pipe3 = Pipe(111700, 330, 2)
+
 
 
     server.mario.velocity += RUN_SPEED_PPS
