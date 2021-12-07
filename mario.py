@@ -153,12 +153,92 @@ class JumpState:
             mario.jump = False
             mario.add_event(JUMP_FINISH)
 
+        if collision.collide_foot_head(mario, server.block2):
+            mario.jumptime = 0
+            mario.jump = False
+            mario.add_event(JUMP_FINISH)
+
+        if collision.collide_foot_head(mario, server.block3):
+            mario.jumptime = 0
+            mario.jump = False
+            mario.add_event(JUMP_FINISH)
+
+        if collision.collide_foot_head(mario, server.block4):
+            mario.jumptime = 0
+            mario.jump = False
+            mario.add_event(JUMP_FINISH)
+
+        if collision.collide_foot_head(mario, server.block5):
+            mario.jumptime = 0
+            mario.jump = False
+            mario.add_event(JUMP_FINISH)
+
+        if collision.collide_foot_head(mario, server.air_tile):
+            mario.jumptime = 0
+            mario.jump = False
+            mario.add_event(JUMP_FINISH)
+
+        if collision.collide_foot_head(mario, server.air_tile2):
+            mario.jumptime = 0
+            mario.jump = False
+            mario.add_event(JUMP_FINISH)
+
+        if collision.collide_foot_head(mario, server.air_tile3):
+            mario.jumptime = 0
+            mario.jump = False
+            mario.add_event(JUMP_FINISH)
+
+        if collision.collide_foot_head(mario, server.air_tile4):
+            mario.jumptime = 0
+            mario.jump = False
+            mario.add_event(JUMP_FINISH)
+
+        if collision.collide_foot_head(mario, server.air_tile5):
+            mario.jumptime = 0
+            mario.jump = False
+            mario.add_event(JUMP_FINISH)
+
+        if collision.collide_foot_head(mario, server.air_tile6):
+            mario.jumptime = 0
+            mario.jump = False
+            mario.add_event(JUMP_FINISH)
+
+        if collision.collide_foot_head(mario, server.air_tile7):
+            mario.jumptime = 0
+            mario.jump = False
+            mario.add_event(JUMP_FINISH)
+
+        if collision.collide_foot_head(mario, server.air_tile8):
+            mario.jumptime = 0
+            mario.jump = False
+            mario.add_event(JUMP_FINISH)
+
+        if collision.collide_foot_head(mario, server.air_tile9):
+            mario.jumptime = 0
+            mario.jump = False
+            mario.add_event(JUMP_FINISH)
+
         if collision.collide_foot_head(mario, server.item_block1):
             mario.jumptime = 0
             mario.jump = False
             mario.add_event(JUMP_FINISH)
 
         if collision.collide_foot_head(mario, server.item_block2):
+            mario.jumptime = 0
+            mario.jump = False
+            mario.add_event(JUMP_FINISH)
+
+        if collision.collide_foot_head(mario, server.item_block3):
+            mario.jumptime = 0
+            mario.jump = False
+            mario.add_event(JUMP_FINISH)
+
+        if collision.collide_foot_head(mario, server.item_block4):
+            mario.jumptime = 0
+            mario.jump = False
+            mario.add_event(JUMP_FINISH)
+
+        if collision.collide_foot_head(mario, server.item_block5):
             mario.jumptime = 0
             mario.jump = False
             mario.add_event(JUMP_FINISH)
@@ -276,7 +356,7 @@ class Mario:
 
         self.font = load_font('ENCR10B.TTF', 40)
 
-        self.state = 3                        # 1: 작은 마리오  2: 큰 마리오 3: 꽃 마리오
+        self.state = 1                        # 1: 작은 마리오  2: 큰 마리오 3: 꽃 마리오
 
         self.jumptime = 0
         self.jump = False
@@ -317,19 +397,107 @@ class Mario:
             self.cur_state.enter(self, event)
 
 
-        # if collision.collide(self, server.pipe):
-        #     if self.x < server.pipe.x:
-        #         self.x = server.pipe.x - 30
-        #     else:
-        #         self.x = server.pipe.x + 40
 
 #--------------발, 머리----------
         if collision.collide_foot_head(self, server.block1):
             self.set_parent(server.block1)
             self.y = server.block1.y + 40
-            if self.x > server.block1.x + 20 or self.x < server.block1.x - 20:
+            if self.x > server.block1.x + 20 * server.block1.l or self.x < server.block1.x - 20:
                 self.parent = None
                 self.add_event(O)
+
+        if collision.collide_foot_head(self, server.block2):
+            self.set_parent(server.block2)
+            self.y = server.block2.y + 40
+            if self.x > server.block2.x + 20 * server.block2.l or self.x < server.block2.x - 20:
+                self.parent = None
+                self.add_event(O)
+
+        if collision.collide_foot_head(self, server.block3):
+            self.set_parent(server.block3)
+            self.y = server.block3.y + 40
+            if self.x > server.block3.x + 20 * server.block3.l or self.x < server.block3.x - 20:
+                self.parent = None
+                self.add_event(O)
+
+        if collision.collide_foot_head(self, server.block4):
+            self.set_parent(server.block4)
+            self.y = server.block4.y + 40
+            if self.x > server.block4.x + 20 * server.block4.l or self.x < server.block4.x - 20:
+                self.parent = None
+                self.add_event(O)
+
+        if collision.collide_foot_head(self, server.block5):
+            self.set_parent(server.block5)
+            self.y = server.block5.y + 40
+            if self.x > server.block5.x + 20 * server.block5.l or self.x < server.block5.x - 20:
+                self.parent = None
+                self.add_event(O)
+
+        if collision.collide_foot_head(self, server.air_tile):
+            self.set_parent(server.air_tile)
+            self.y = server.air_tile.y + 40
+            if self.x > server.air_tile.x + 20 * server.air_tile.l or self.x < server.air_tile.x - 20:
+                self.parent = None
+                self.add_event(O)
+
+        if collision.collide_foot_head(self, server.air_tile2):
+            self.set_parent(server.air_tile2)
+            self.y = server.air_tile2.y + 40
+            if self.x > server.air_tile2.x + 20 * server.air_tile2.l or self.x < server.air_tile2.x - 20:
+                self.parent = None
+                self.add_event(O)
+
+        if collision.collide_foot_head(self, server.air_tile3):
+            self.set_parent(server.air_tile3)
+            self.y = server.air_tile3.y + 40
+            if self.x > server.air_tile3.x + 20 * server.air_tile3.l or self.x < server.air_tile3.x - 20:
+                self.parent = None
+                self.add_event(O)
+
+        if collision.collide_foot_head(self, server.air_tile4):
+            self.set_parent(server.air_tile4)
+            self.y = server.air_tile4.y + 40
+            if self.x > server.air_tile4.x + 20 * server.air_tile4.l or self.x < server.air_tile4.x - 20:
+                self.parent = None
+                self.add_event(O)
+
+        if collision.collide_foot_head(self, server.air_tile5):
+            self.set_parent(server.air_tile5)
+            self.y = server.air_tile5.y + 40
+            if self.x > server.air_tile5.x + 20 * server.air_tile5.l or self.x < server.air_tile5.x - 20:
+                self.parent = None
+                self.add_event(O)
+
+        if collision.collide_foot_head(self, server.air_tile6):
+            self.set_parent(server.air_tile6)
+            self.y = server.air_tile6.y + 40
+            if self.x > server.air_tile6.x + 20 * server.air_tile6.l or self.x < server.air_tile6.x - 20:
+                self.parent = None
+                self.add_event(O)
+
+        if collision.collide_foot_head(self, server.air_tile7):
+            self.set_parent(server.air_tile7)
+            self.y = server.air_tile7.y + 40
+            if self.x > server.air_tile7.x + 20 * server.air_tile7.l or self.x < server.air_tile7.x - 20:
+                self.parent = None
+                self.add_event(O)
+
+        if collision.collide_foot_head(self, server.air_tile8):
+            self.set_parent(server.air_tile8)
+            self.y = server.air_tile8.y + 40
+            if self.x > server.air_tile8.x + 20 * server.air_tile8.l or self.x < server.air_tile8.x - 20:
+                self.parent = None
+                self.add_event(O)
+
+        if collision.collide_foot_head(self, server.air_tile9):
+            self.set_parent(server.air_tile9)
+            self.y = server.air_tile9.y + 40
+            if self.x > server.air_tile9.x + 20 * server.air_tile9.l or self.x < server.air_tile9.x - 20:
+                self.parent = None
+                self.add_event(O)
+
+
 
         if collision.collide_foot_head(self, server.item_block1):
             self.set_parent(server.item_block1)
@@ -342,6 +510,27 @@ class Mario:
             self.set_parent(server.item_block2)
             self.y = server.item_block2.y + 40
             if self.x > server.item_block2.x + 10 or self.x < server.item_block2.x - 20:
+                self.parent = None
+                self.add_event(O)
+
+        if collision.collide_foot_head(self, server.item_block3):
+            self.set_parent(server.item_block3)
+            self.y = server.item_block3.y + 40
+            if self.x > server.item_block3.x + 10 or self.x < server.item_block3.x - 20:
+                self.parent = None
+                self.add_event(O)
+
+        if collision.collide_foot_head(self, server.item_block4):
+            self.set_parent(server.item_block4)
+            self.y = server.item_block4.y + 40
+            if self.x > server.item_block4.x + 10 or self.x < server.item_block4.x - 20:
+                self.parent = None
+                self.add_event(O)
+
+        if collision.collide_foot_head(self, server.item_block5):
+            self.set_parent(server.item_block5)
+            self.y = server.item_block5.y + 40
+            if self.x > server.item_block5.x + 10 or self.x < server.item_block5.x - 20:
                 self.parent = None
                 self.add_event(O)
 
@@ -376,10 +565,45 @@ class Mario:
 #--------------머리, 발--------------
         if collision.collide_head_foot(self, server.block1):
             self.add_event(O)
+        if collision.collide_head_foot(self, server.block2):
+            self.add_event(O)
+        if collision.collide_head_foot(self, server.block3):
+            self.add_event(O)
+        if collision.collide_head_foot(self, server.block4):
+            self.add_event(O)
+        if collision.collide_head_foot(self, server.block5):
+            self.add_event(O)
+
         if collision.collide_head_foot(self, server.item_block1):
             self.add_event(O)
         if collision.collide_head_foot(self, server.item_block2):
             self.add_event(O)
+        if collision.collide_head_foot(self, server.item_block3):
+            self.add_event(O)
+        if collision.collide_head_foot(self, server.item_block4):
+            self.add_event(O)
+        if collision.collide_head_foot(self, server.item_block5):
+            self.add_event(O)
+
+        if collision.collide_head_foot(self, server.air_tile):
+            self.add_event(O)
+        if collision.collide_head_foot(self, server.air_tile2):
+            self.add_event(O)
+        if collision.collide_head_foot(self, server.air_tile3):
+            self.add_event(O)
+        if collision.collide_head_foot(self, server.air_tile4):
+            self.add_event(O)
+        if collision.collide_head_foot(self, server.air_tile5):
+            self.add_event(O)
+        if collision.collide_head_foot(self, server.air_tile6):
+            self.add_event(O)
+        if collision.collide_head_foot(self, server.air_tile7):
+            self.add_event(O)
+        if collision.collide_head_foot(self, server.air_tile8):
+            self.add_event(O)
+        if collision.collide_head_foot(self, server.air_tile9):
+            self.add_event(O)
+
 
 
     def skill(self):
