@@ -19,6 +19,11 @@ block4 = None
 block5 = None
 gumba = None
 gumba2 = None
+gumba3 = None
+gumba4 = None
+turtle = None
+turtle2 = None
+turtle3 = None
 pipe = None
 pipe2 = None
 pipe3 = None
@@ -33,4 +38,5 @@ air_tile7 = None
 air_tile8 = None
 air_tile9 = None
 fire = None
+boss = None
 
