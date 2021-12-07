@@ -29,6 +29,8 @@ class Monster_Gumba:
         self.collision = 0
         self.y2 = self.y
 
+        self.parent = None
+
     def get_bb(self):
         return self.x - 15, self.y - 15, self.x + 20, self.y + 15
 
@@ -53,13 +55,31 @@ class Monster_Gumba:
             if self.y2 < self.y - 50:
                 game_world.remove_object(self)
 
+        if collision.collide(self, server.mario):
+            self.set_parent(server.mario)
+            if self.x > server.mario.x + 20 or self.x < server.mario.x - 20:
+                self.parent = None
+            if self.parent == server.mario:
+                server.mario.state -= 0.005
+            if server.mario.state < 1:
+                server.mario.state = 1
+                server.mario.life -= 1
+                server.mario.x = 50
+                server.mario.y = 500
+
+
     def draw(self):
         k = 0
         #draw_rectangle(*self.get_bb())
         draw_rectangle(*self.get_bb_head())
+        debug_print('Parent :' + str(self.parent))
         if self.collision == 0:
             for i in range(self.num):
                 self.image.clip_draw(0 + int(self.frame) * 30, 0, 30, 30, self.x + k, self.y + 10, 50, 50)
                 k += 30
         elif self.collision == 1:
             self.image.clip_draw(60, 0, 30, 30, self.x, self.y2 + 10 , 50, 50)
+
+    def set_parent(self, mario):
+        self.parent = mario
+

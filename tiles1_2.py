@@ -15,10 +15,10 @@ class Tiles:
         self.y = 200
 
     def get_bb(self):
-        return self.x + 23, self.y - 200, self.x + 95, self.y
+        return self.x + 33, self.y - 200, self.x + 85, self.y
 
     def get_bb_2(self):
-        return self.x + 655, self.y - 200, self.x + 650 + 70, self.y
+        return self.x + 665, self.y - 200, self.x + 640 + 70, self.y
 
     def draw(self):
         k = 0
@@ -30,10 +30,10 @@ class Tiles:
             k += 90
 
     def update(self):
-        if collision.collide(self, server.mario) or collision.collide_2(self, server.mario):
+        if collision.collide_3(self, server.mario) or collision.collide_2(self, server.mario):
             server.mario.y -= RUN_SPEED_PPS / 200
 
-            if server.mario.y < 10:
+            if server.mario.y < 50:
                 server.mario.x = 50
                 server.mario.y = 225
 

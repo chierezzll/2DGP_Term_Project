@@ -43,4 +43,4 @@ class Air_tile:
 
             if server.mario.y < 10:
                 server.mario.x = 50
-                server.mario.y = 920
+                server.mario.y = 790

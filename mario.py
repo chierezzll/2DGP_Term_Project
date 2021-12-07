@@ -54,19 +54,19 @@ class IdleState:
 
 
     def draw(mario):
-        if mario.state == 1:        # 작은 마리오
+        if 1 <= mario.state < 2:        # 작은 마리오
             if mario.dir == 1:
                 mario.image.clip_draw(0, 90, 40, 90, mario.x, mario.y, 50, 50)
             else:
                 mario.image.clip_draw(1005, 0, 40, 90, mario.x, mario.y, 50, 50)
 
-        elif mario.state == 2:      # 큰 마리오
+        elif 2 <= mario.state < 3:      # 큰 마리오
             if mario.dir == 1:
                 mario.image.clip_draw(350, 90, 40, 90, mario.x, mario.y, 50, 50)
             else:
                 mario.image.clip_draw(750 - 5, 0, 40, 90, mario.x, mario.y, 50, 50)
 
-        elif mario.state == 3:      # 꽃 마리오
+        elif 3 <= mario.state:      # 꽃 마리오
             if mario.dir == 1:
                 mario.image.clip_draw(745, 90, 40, 90, mario.x, mario.y, 50, 50)
             else:
@@ -96,19 +96,19 @@ class RunState:
 
 
     def draw(mario):
-        if mario.state == 1:
+        if 1 <= mario.state < 2:
             if mario.dir == 1:
                 mario.image.clip_draw(0 + int(mario.frame) * 45, 90, 38, 90, mario.x, mario.y, 50, 50)
             else:
                 mario.image.clip_draw(960 + int(mario.frame) * 45, 0, 40, 90, mario.x, mario.y, 50, 50)
 
-        elif mario.state == 2:
+        elif 2 <= mario.state < 3:
             if mario.dir == 1:
                 mario.image.clip_draw(350 + int(mario.frame) * 45, 90, 40, 90, mario.x, mario.y, 50, 50)
             else:
                 mario.image.clip_draw(615 - 5 + int(mario.frame) * 45, 0, 40, 90, mario.x, mario.y, 50, 50)
 
-        elif mario.state == 3:      # 꽃 마리오
+        elif 3 <= mario.state:      # 꽃 마리오
             if mario.dir == 1:
                 mario.image.clip_draw(744 + int(mario.frame) * 45, 90, 40, 90, mario.x, mario.y, 50, 50)
             else:
@@ -275,18 +275,18 @@ class JumpState:
 
 
     def draw(mario):
-        if mario.state == 1:
+        if 1 <= mario.state < 2:
             if mario.dir == 1:
                 mario.image.clip_draw(0 + int(mario.frame) * 45, 90, 38, 90, mario.x, mario.y, 50, 50)
             else:
                 mario.image.clip_draw(960 + int(mario.frame) * 45, 0, 40, 90, mario.x, mario.y, 50, 50)
-        elif mario.state == 2:
+        elif 2 <= mario.state < 3:
             if mario.dir == 1:
                 mario.image.clip_draw(350 + int(mario.frame) * 45, 90, 40, 90, mario.x, mario.y, 50, 50)
             else:
                 mario.image.clip_draw(615 - 5 + int(mario.frame) * 45, 0, 40, 90, mario.x, mario.y, 50, 50)
 
-        elif mario.state == 3:      # 꽃 마리오
+        elif 3 <= mario.state:      # 꽃 마리오
             if mario.dir == 1:
                 mario.image.clip_draw(744 + int(mario.frame) * 45, 90, 40, 90, mario.x, mario.y, 50, 50)
             else:
@@ -326,19 +326,19 @@ class FallState:
             mario.add_event(JUMP_FINISH)
 
     def draw(mario):
-        if mario.state == 1:
+        if 1 <= mario.state < 2:
             if mario.dir == 1:
                 mario.image.clip_draw(0 + int(mario.frame) * 45, 90, 38, 90, mario.x, mario.y, 50, 50)
             else:
                 mario.image.clip_draw(960 + int(mario.frame) * 45, 0, 40, 90, mario.x, mario.y, 50, 50)
 
-        elif mario.state == 2:
+        elif 2 <= mario.state < 3:
             if mario.dir == 1:
                 mario.image.clip_draw(350 + int(mario.frame) * 45, 90, 40, 90, mario.x, mario.y, 50, 50)
             else:
                 mario.image.clip_draw(615 - 5 + int(mario.frame) * 45, 0, 40, 90, mario.x, mario.y, 50, 50)
 
-        elif mario.state == 3:      # 꽃 마리오
+        elif 3 <= mario.state:      # 꽃 마리오
             if mario.dir == 1:
                 mario.image.clip_draw(744 + int(mario.frame) * 45, 90, 40, 90, mario.x, mario.y, 50, 50)
             else:
@@ -378,14 +378,16 @@ class Mario:
 
         self.parent = None
 
+        self.life = 5
+        self.coin = 0
     def add_event(self, event):
         self.event_que.insert(0, event)
 
     def get_bb(self):
         if self.state == 1:
-            return self.x - 15, self.y - 27, self.x + 15, self.y + 27
+            return self.x - 15, self.y - 20, self.x + 15, self.y + 27
         else:
-            return self.x - 15, self.y - 27, self.x + 15, self.y + 27
+            return self.x - 15, self.y - 20, self.x + 15, self.y + 27
 
     def get_bb_head(self):
         if self.state == 1:
@@ -627,10 +629,10 @@ class Mario:
         debug_print('Parent :' + str(self.parent) + ' Dir:' + str(self.dir) + '  State:' + str(self.cur_state) + ' mario.y : ' + str(self.y))
 
         self.image_heart.draw(50, 1000, 70, 70)
-        self.font.draw(100, 990, 'x 5', (0, 0, 0))
+        self.font.draw(100, 990, str(self.life), (0, 0, 0))
 
         self.image_coin.draw(300, 1000, 60, 60)
-        self.font.draw(350, 990, 'x 0', (0, 0, 0))
+        self.font.draw(350, 990, str(self.coin), (0, 0, 0))
 
     def handle_event(self, event):
         if (event.type, event.key) in key_event_table:
