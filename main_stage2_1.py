@@ -48,8 +48,8 @@ def enter():
     server.mario = Mario(170, 340)
     server.coins = [Coins(850 + 30 * i, 600) for i in range(3)]
     server.coins2 = [Coins(1025 + 30 * i, 350) for i in range(5)]
-    server.gumba = Monster_Gumba(860, 580, 50, 2)
-    server.gumba2 = Monster_Gumba(720, 230, 50, 2)
+    server.gumba = Monster_Gumba(860, 580, 50, 1)
+    server.gumba2 = Monster_Gumba(720, 230, 50, 1)
     server.item_block1 = Item_Block(11750, 850, 1, 1)
 
     server.air_tile = Air_tile(350, 300, 10)

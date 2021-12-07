@@ -70,7 +70,7 @@ def enter():
 
     server.air_tile4 = Air_tile(900, 370, 10)
     server.block1 = Block(980, 470, 3)
-    server.gumba = Monster_Gumba(960, 400, 40, 2)
+    server.gumba = Monster_Gumba(960, 400, 40, 1)
 
     server.air_tile5 = Air_tile(1100, 550, 7)
     server.air_tile6 = Air_tile(1400, 550, 2)

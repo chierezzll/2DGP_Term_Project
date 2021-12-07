@@ -261,6 +261,17 @@ class JumpState:
             mario.jumptime = 0.005
         if collision.collide_foot_head(mario, server.gumba2):
             mario.jumptime = 0.005
+        if collision.collide_foot_head(mario, server.gumba3):
+            mario.jumptime = 0.005
+        if collision.collide_foot_head(mario, server.gumba4):
+            mario.jumptime = 0.005
+
+        if collision.collide_foot_head(mario, server.turtle):
+            mario.jumptime = 0.005
+        if collision.collide_foot_head(mario, server.turtle2):
+            mario.jumptime = 0.005
+        if collision.collide_foot_head(mario, server.turtle3):
+            mario.jumptime = 0.005
 
 
     def draw(mario):
@@ -554,12 +565,6 @@ class Mario:
             if self.x > server.pipe3.x + 30 or self.x < server.pipe3.x - 15:
                 self.parent = None
                 self.add_event(O)
-
-
-
-        # if collision.collide_foot_head(self, server.gumba2):
-        #     self.add_event(SPACE)
-        #     game_world.remove_object(server.gumba2)
 
 
 #--------------머리, 발--------------

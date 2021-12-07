@@ -15,6 +15,7 @@ from tiles_bottom import Tiles_bottom
 from block import Block
 from pipe import Pipe
 from monster_gumba import Monster_Gumba
+from monster_turtle import Monster_Turtle
 from coins import Coins
 from fire import Fire
 from air_tile import Air_tile
@@ -31,8 +32,6 @@ def enter():
     server.tiles = Tiles()
     server.tiles_bottom = Tiles_bottom()
     server.mario = Mario(200, 225)
-    #server.coins = Coins(580, 360, 3)
-    #server.coins2 = Coins(1450, 235, 7)
     server.coins = [Coins(580 + 30 * i, 360) for i in range(3)]
     server.coins2 = [Coins(1450 + 30 * i, 235) for i in range(7)]
     server.item_block1 = Item_Block(450, 310, 1, 1)
@@ -43,6 +42,22 @@ def enter():
     server.pipe = Pipe(1000, 225, 0)
     server.pipe2 = Pipe(1350, 285, 1)
     server.pipe3 = Pipe(1700, 330, 2)
+
+    game_world.add_object(server.background, 0)
+    game_world.add_object(server.mario, 1)
+    game_world.add_object(server.tiles, 1)
+    game_world.add_object(server.tiles_bottom, 1)
+    game_world.add_object(server.item_block1, 1)
+    game_world.add_object(server.item_block2, 1)
+    game_world.add_object(server.gumba, 1)
+    game_world.add_object(server.gumba2, 1)
+    game_world.add_object(server.pipe, 1)
+    game_world.add_object(server.pipe2, 1)
+    game_world.add_object(server.pipe3, 1)
+    game_world.add_object(server.block1, 1)
+
+    game_world.add_objects(server.coins, 1)
+    game_world.add_objects(server.coins2, 1)
 
     server.block2 = Block(18210, 450, 8)
     server.block3 = Block(11050, 450, 4)
@@ -61,30 +76,11 @@ def enter():
     server.air_tile7 = Air_tile(11150, 300, 5)
     server.air_tile8 = Air_tile(111400, 650, 7)
     server.air_tile9 = Air_tile(111650, 750, 15)
-
-
-    # game_world.add_object(server.block2, 1)
-    # game_world.add_object(server.block3, 1)
-    # game_world.add_object(server.block4, 1)
-    # game_world.add_object(server.block5, 1)
-
-
-
-    game_world.add_object(server.background, 0)
-    game_world.add_object(server.mario, 1)
-    game_world.add_object(server.tiles, 1)
-    game_world.add_object(server.tiles_bottom, 1)
-    game_world.add_object(server.item_block1, 1)
-    game_world.add_object(server.item_block2, 1)
-    game_world.add_object(server.gumba, 1)
-    game_world.add_object(server.gumba2, 1)
-    game_world.add_object(server.pipe, 1)
-    game_world.add_object(server.pipe2, 1)
-    game_world.add_object(server.pipe3, 1)
-    game_world.add_object(server.block1, 1)
-
-    game_world.add_objects(server.coins, 1)
-    game_world.add_objects(server.coins2, 1)
+    server.turtle = Monster_Turtle(31160, 620, 100, 1)
+    server.turtle2 = Monster_Turtle(11990, 220, 120, 1)
+    server.turtle3 = Monster_Turtle(11990, 220, 120, 1)
+    server.gumba3 = Monster_Gumba(22600, 215, 100, 1)
+    server.gumba4 = Monster_Gumba(122500, 215, 100, 1)
 
 def exit():
     game_world.clear()

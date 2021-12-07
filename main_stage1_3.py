@@ -62,8 +62,8 @@ def enter():
     server.block3 = Block(1200, 310, 2)
     server.block4 = Block(1180, 420, 1)
     server.block5 = Block(1232, 420, 1)
-    server.gumba = Monster_Gumba(1000, 215, 100, 4)
-    server.gumba2 = Monster_Gumba(380, 215, 50, 2)
+    server.gumba = Monster_Gumba(1000, 215, 100, 1)
+    server.gumba2 = Monster_Gumba(380, 215, 50, 1)
     server.castle = Castle(1750, 275)
 
     game_world.add_object(server.background, 0)

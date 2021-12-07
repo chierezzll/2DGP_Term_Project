@@ -1,6 +1,8 @@
 from pico2d import *
 import game_framework
-
+import server
+import game_world
+import collision
 PIXEL_PER_METER = (10.0 / 0.3)
 RUN_SPEED_KMPH = 0.03
 RUN_SPEED_MPM = (RUN_SPEED_KMPH * 1000 / 60.0)
@@ -23,16 +25,40 @@ class Monster_Turtle:
         self.num = num  # 갯수
         self.frame = 0
 
+        self.collision = 0
+        self.y2 = self.y
+
+    def get_bb(self):
+        return self.x - 15, self.y - 15, self.x + 20, self.y + 15
+
+    def get_bb_head(self):
+        return self.x - 5, self.y + 10, self.x + 10, self.y + 15
+
     def update(self):
         self.frame = (self.frame + FRAMES_PER_ACTION * ACTION_PER_TIME * game_framework.frame_time) % 2
         self.y += RUN_SPEED_PPS * self.dir
-        if self.y >= self.ty + self.d:
-            self.dir = -1
-        elif self.y <= self.ty - self.d:
-            self.dir = 1
+
+        if self.collision == 0:
+            if self.y >= self.ty + self.d:
+                self.dir = -1
+            elif self.y <= self.ty - self.d:
+                self.dir = 1
+
+        if collision.collide_head_foot(self, server.mario):
+            self.collision = 1
+
+        if self.collision == 1:
+            self.y2 -= RUN_SPEED_PPS * 2
+            self.x -= RUN_SPEED_PPS
+            if self.y2 < self.y - 100:
+                game_world.remove_object(self)
 
     def draw(self):
         k = 0
-        for i in range(self.num):
-            self.image.clip_draw(480 + int(self.frame) * 30, 0, 30, 30, self.x + k, self.y, 40, 40)
-            k += 30
+        draw_rectangle(*self.get_bb_head())
+        if self.collision == 0:
+            for i in range(self.num):
+                self.image.clip_draw(480 + int(self.frame) * 30, 0, 30, 30, self.x + k, self.y, 40, 40)
+                k += 30
+        elif self.collision == 1:
+            self.image.clip_draw(450, 0, 30, 30, self.x + k, self.y, 40, 40)
