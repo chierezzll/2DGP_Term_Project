@@ -60,9 +60,10 @@ def enter():
     server.coins = [Coins(280 + 30 * i, 640) for i in range(7)]
     server.coins2 = [Coins(620 + 30 * i, 270) for i in range(4)]
 
-    server.air_tile = Air_tile(10, 550, 10)
+
 
     server.block1 = Block(620, 320, 5)
+    server.block2 = Block(10, 550, 10)
     server.item_block1 = Item_Block(670, 420, 1, 1)
 
     server.turtle = Monster_Turtle(360, 620, 100, 1)
@@ -81,8 +82,8 @@ def enter():
     game_world.add_objects(server.coins, 1)
     game_world.add_objects(server.coins2, 1)
     game_world.add_object(server.block1, 1)
+    game_world.add_object(server.block2, 1)
     game_world.add_object(server.item_block1, 1)
-    game_world.add_object(server.air_tile, 1)
     game_world.add_object(server.gumba, 1)
     game_world.add_object(server.gumba2, 1)
     game_world.add_object(server.gumba3, 1)
@@ -95,7 +96,6 @@ def enter():
 
     server.mario.velocity += RUN_SPEED_PPS
 
-    server.block2 = Block(18210, 450, 8)
     server.block3 = Block(11050, 450, 4)
     server.block4 = Block(11131, 310, 1)
     server.block5 = Block(11300, 310, 1)
@@ -106,6 +106,7 @@ def enter():
     server.pipe = Pipe(111000, 225, 0)
     server.pipe2 = Pipe(111350, 285, 1)
     server.pipe3 = Pipe(111700, 330, 2)
+    server.air_tile = Air_tile(22210, 550, 10)
     server.air_tile2 = Air_tile(41100, 300, 7)
     server.air_tile3 = Air_tile(41150, 420, 2)
     server.air_tile4 = Air_tile(61110, 530, 10)

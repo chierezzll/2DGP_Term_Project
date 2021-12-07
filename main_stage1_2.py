@@ -8,7 +8,7 @@ import main_stage1_1
 import main_stage1_3
 import json
 import os
-
+import collision
 import game_world
 
 from mario import Mario
@@ -106,9 +106,9 @@ def update():
 
 def draw():
     clear_canvas()
-
     for game_object in game_world.all_objects():
         game_object.draw()
 
     update_canvas()
+
 
