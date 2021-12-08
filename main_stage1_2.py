@@ -54,7 +54,7 @@ def enter():
     server.coins = [Coins(850 + 30 * i, 500) for i in range(3)]
     server.item_block1 = Item_Block(225, 310, 1, 1)
     server.item_block2 = Item_Block(1131, 450, 1, 1)
-    server.item_block3 = Item_Block(1320, 310, 1, 1)
+    server.item_block3 = Item_Block(1320, 310, 1, 2)
     server.block1 = Block(700, 310, 4)
     server.block2 = Block(820, 450, 8)
     server.block3 = Block(1050, 450, 4)

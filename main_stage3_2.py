@@ -14,7 +14,7 @@ BOTTOM = 225
 
 name = "main_stage3_2"
 
-
+import collision
 import game_world
 from mario import Mario
 from item_block import Item_Block
@@ -64,7 +64,7 @@ def enter():
 
     server.block1 = Block(620, 320, 5)
     server.block2 = Block(10, 550, 10)
-    server.item_block1 = Item_Block(670, 420, 1, 1)
+    server.item_block1 = Item_Block(670, 420, 1, 4)
 
     server.turtle = Monster_Turtle(360, 620, 100, 1)
     server.turtle2 = Monster_Turtle(990, 220, 120, 1)
@@ -127,7 +127,7 @@ def resume():
 
 def update():
 
-    if server.mario.x > 1920:
+    if collision.collide(server.mario, server.castle):
         game_framework.change_state(main_stage3_3)
 
     for game_object in game_world.all_objects():

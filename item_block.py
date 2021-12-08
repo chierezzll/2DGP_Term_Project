@@ -62,14 +62,15 @@ class Item_Block():
                 if self.coin_y < self.y + 70:       # 동전 출현
                     self.image_item.clip_draw(0 + int(self.frame) * 15, 16, 15, 16, self.x + k - 3, self.coin_y)
 
-            elif self.type == 2:
-                self.image_item.clip_draw(15, 30, 15, 16, self.x + k - 3, self.item_y)  # 초록 버섯 출현
+            elif self.type == 2:        # 초록 버섯
+                if self.item == True:
+                    self.image_item.clip_draw(15, 30, 15, 16, self.x + k - 3, self.item_y)  # 초록 버섯 출현
 
-            elif self.type == 3:
+            elif self.type == 3:        # 빨간 버섯
                 if self.item == True:
                     self.image_item.clip_draw(0, 30, 15, 16, self.x + k - 3, self.item_y)
 
-            elif self.type == 4:
+            elif self.type == 4:        # 꽃
                 if self.item == True:
                     self.image_item.clip_draw(32, 30, 16, 18, self.x + k - 3, self.item_y)
 
@@ -90,12 +91,20 @@ class Item_Block():
                     self.coin_sound.play()
                     self.item = False
 
+            if self.type == 2:
+                if collision.collide_item(self, server.mario):
+                    if self.item == True:
+                        server.mario.life += 1
+                        self.item = False
+
             if self.type == 3:      # 빨간 버섯
                 if collision.collide_item(self, server.mario):
-                    server.mario.state = 2
-                    self.item = False
+                    if self.item == True:
+                        server.mario.state = 2
+                        self.item = False
 
             elif self.type == 4:      # 꽃
                 if collision.collide_item(self, server.mario):
-                    server.mario.state = 3
-                    self.item = False
+                    if self.item == True:
+                        server.mario.state = 3
+                        self.item = False

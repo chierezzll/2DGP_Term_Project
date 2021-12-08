@@ -63,6 +63,8 @@ def enter():
     server.coins = [Coins(665 + 30 * i, 765) for i in range(3)]
     server.coins2 = [Coins(1120 + 30 * i, 570) for i in range(5)]
 
+    server.item_block1 = Item_Block(650, 600, 1, 3)
+
     server.air_tile = Air_tile(10, 750, 10)
     server.air_tile2 = Air_tile(300, 600, 10)
     server.air_tile3 = Air_tile(650, 700, 6)

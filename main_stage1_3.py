@@ -55,7 +55,7 @@ def enter():
     server.item_block1 = Item_Block(300, 310, 1, 1)
     server.item_block2 = Item_Block(380, 310, 1, 1)
     server.item_block3 = Item_Block(460, 310, 1, 1)
-    server.item_block4 = Item_Block(380, 430, 1, 1)
+    server.item_block4 = Item_Block(380, 430, 1, 4)
     server.item_block5 = Item_Block(1200, 420, 1, 1)
     server.block1 = Block(900, 310, 1)
     server.block2 = Block(950, 420, 4)
