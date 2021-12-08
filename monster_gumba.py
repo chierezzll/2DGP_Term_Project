@@ -48,6 +48,7 @@ class Monster_Gumba:
             elif self.x <= self.tx - self.d:
                 self.dir = 1
 
+
         if collision.collide_head_foot(self, server.mario):
             self.collision = 1
 

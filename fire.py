@@ -1,6 +1,8 @@
 from pico2d import *
 import game_world
 import game_framework
+import collision
+import server
 
 PIXEL_PER_METER = (10.0 / 0.3)
 RUN_SPEED_KMPH = 50.0
@@ -22,12 +24,17 @@ class Fire:
     def __init__(self, x = 400, y = 300, velocity = 1):
         self.frame = 0
         self.v = 2
+        self.count = 0
+        self.dir = 1
         if Fire.image == None:
             Fire.image = load_image('fire.png')
         self.x, self.y, self.velocity = x, y, velocity
 
+    def get_bb(self):
+        return self.x - 15, self.y - 22, self.x + 8, self.y - 3
+
     def draw(self):
-        #self.image.draw(self.x, self.y)
+        draw_rectangle(*self.get_bb())
         self.image.clip_draw(int(self.frame) * 17, 80, 15, 15, self.x, self.y - 15, 25, 25)
 
     def update(self):
@@ -47,3 +54,33 @@ class Fire:
 
         if self.x < 25 or self.x > 1920 - 25:
             game_world.remove_object(self)
+
+        if collision.collide(self, server.pipe):
+            game_world.remove_object(self)
+        if collision.collide(self, server.pipe2):
+            game_world.remove_object(self)
+        if collision.collide(self, server.pipe3):
+            game_world.remove_object(self)
+
+        if collision.collide(self, server.gumba):
+            game_world.remove_object(self)
+            game_world.remove_object(server.gumba)
+        if collision.collide(self, server.gumba2):
+            game_world.remove_object(self)
+            game_world.remove_object(server.gumba2)
+        if collision.collide(self, server.gumba3):
+            game_world.remove_object(self)
+            game_world.remove_object(server.gumba3)
+        if collision.collide(self, server.gumba4):
+            game_world.remove_object(self)
+            game_world.remove_object(server.gumba4)
+
+        if collision.collide(self, server.turtle):
+            game_world.remove_object(self)
+            game_world.remove_object(server.turtle)
+        if collision.collide(self, server.turtle2):
+            game_world.remove_object(self)
+            game_world.remove_object(server.turtle2)
+        if collision.collide(self, server.turtle3):
+            game_world.remove_object(self)
+            game_world.remove_object(server.turtle3)
