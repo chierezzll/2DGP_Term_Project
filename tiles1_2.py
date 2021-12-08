@@ -34,8 +34,13 @@ class Tiles:
             server.mario.y -= RUN_SPEED_PPS / 200
 
             if server.mario.y < 50:
+                server.state = 1
+                server.life -= 1
                 server.mario.x = 50
-                server.mario.y = 225
+                server.mario.y = 900
+
+        if 50 < server.mario.x < 60:
+            server.mario.y -= RUN_SPEED_PPS / 300
 
 
     # 300 ~ 400, 950 ~ 1050
