@@ -19,6 +19,7 @@ from monster_turtle import Monster_Turtle
 from coins import Coins
 from fire import Fire
 from air_tile import Air_tile
+from boss import Boss
 
 import server
 # Game object class here
@@ -81,6 +82,8 @@ def enter():
     server.turtle3 = Monster_Turtle(11990, 220, 120, 1)
     server.gumba3 = Monster_Gumba(22600, 215, 100, 1)
     server.gumba4 = Monster_Gumba(122500, 215, 100, 1)
+
+    server.boss = Boss(122500, 215, 100, 1)
 
 def exit():
     game_world.clear()

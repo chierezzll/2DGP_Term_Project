@@ -39,4 +39,9 @@ air_tile8 = None
 air_tile9 = None
 fire = None
 boss = None
+boss_bgm = None
+
+state = 1
+life = 5
+coin = 0
 

@@ -62,10 +62,10 @@ class Monster_Gumba:
             if self.x > server.mario.x + 20 or self.x < server.mario.x - 20:
                 self.parent = None
             if self.parent == server.mario:
-                server.mario.state -= 0.005
-            if server.mario.state < 1:
-                server.mario.state = 1
-                server.mario.life -= 1
+                server.state -= 0.005
+            if server.state < 1:
+                server.state = 1
+                server.life -= 1
                 server.mario.x = 50
                 server.mario.y = TOP
         if 50 < server.mario.x < 60:

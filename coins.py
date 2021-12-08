@@ -25,7 +25,7 @@ class Coins:
         if collision.collide(self, server.mario):
             self.coin_sound.play()
             game_world.remove_object(self)
-            server.mario.coin += 1
+            server.coin += 1
 
 
     def draw(self):

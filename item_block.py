@@ -87,24 +87,24 @@ class Item_Block():
 
             if self.type == 1:
                 if self.item == True:
-                    server.mario.coin += 1
+                    server.coin += 1
                     self.coin_sound.play()
                     self.item = False
 
             if self.type == 2:
                 if collision.collide_item(self, server.mario):
                     if self.item == True:
-                        server.mario.life += 1
+                        server.life += 1
                         self.item = False
 
             if self.type == 3:      # 빨간 버섯
                 if collision.collide_item(self, server.mario):
                     if self.item == True:
-                        server.mario.state = 2
+                        server.state = 2
                         self.item = False
 
             elif self.type == 4:      # 꽃
                 if collision.collide_item(self, server.mario):
                     if self.item == True:
-                        server.mario.state = 3
+                        server.state = 3
                         self.item = False

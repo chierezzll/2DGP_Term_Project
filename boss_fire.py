@@ -55,10 +55,10 @@ class Fire:
 
         if collision.collide(self, server.mario):
             game_world.remove_object(self)
-            server.mario.state -= 1
-            if server.mario.state < 1:
-                server.mario.state = 1
-                server.mario.life -= 1
+            server.state -= 1
+            if server.state < 1:
+                server.state = 1
+                server.life -= 1
                 server.mario.x = 200
                 server.mario.y = 225
 
@@ -92,10 +92,10 @@ class Fire_ball:
 
         if collision.collide(self, server.mario):
             game_world.remove_object(self)
-            server.mario.state -= 1
-            if server.mario.state < 1:
-                server.mario.state = 1
-                server.mario.life -= 1
+            server.state -= 1
+            if server.state < 1:
+                server.state = 1
+                server.life -= 1
                 server.mario.x = 200
                 server.mario.y = 225
 

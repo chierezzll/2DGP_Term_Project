@@ -27,6 +27,7 @@ from monster_gumba import Monster_Gumba
 from monster_turtle import Monster_Turtle
 from coins import Coins
 from boss import Boss
+from boss_bgm import Boss_bgm
 
 import server
 # Game object class here
@@ -53,8 +54,10 @@ def enter():
     server.tiles_bottom = Tiles_bottom()
     server.mario = Mario(200, 225)
     server.boss = Boss(1100, 240, random.randint(100, 200), 1)
+    server.boss_bgm = Boss_bgm(11111, 11111, 23, 1)
 
     server.item_block1 = Item_Block(100, 320, 1, 4)
+
 
     game_world.add_object(server.background3, 0)
     game_world.add_object(server.mario, 1)
@@ -62,6 +65,7 @@ def enter():
     game_world.add_object(server.tiles, 1)
     game_world.add_object(server.tiles_bottom, 1)
     game_world.add_object(server.boss, 1)
+    game_world.add_object(server.boss_bgm, 1)
 
     server.mario.velocity += RUN_SPEED_PPS
 
