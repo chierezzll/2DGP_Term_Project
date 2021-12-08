@@ -38,7 +38,7 @@ class Fire:
 
 
     def draw(self):
-        draw_rectangle(*self.get_bb())
+        #draw_rectangle(*self.get_bb())
         if self.velocity > 0:
             #self.image.clip_draw(90 + int(self.frame) * 90, 0, 90, 40, self.x, self.y)
             self.image.clip_draw(70 + int(self.frame) * 90, 110, 80, 40, self.x, self.y)
@@ -76,7 +76,7 @@ class Fire_ball:
         return self.x - 15, self.y - 12, self.x + 8, self.y + 13
 
     def draw(self):
-        draw_rectangle(*self.get_bb())
+        #draw_rectangle(*self.get_bb())
         self.image.clip_draw(int(self.frame) * 17, 80, 15, 15, self.x, self.y, 25, 25)
 
     def update(self):

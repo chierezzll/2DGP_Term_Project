@@ -30,9 +30,9 @@ class Air_tile:
 
     def draw(self):
         k = 0
-        draw_rectangle(*self.get_bb_2())
-        draw_rectangle(*self.get_bb_head())
-        draw_rectangle(*self.get_bb_foot())
+        #draw_rectangle(*self.get_bb_2())
+        #draw_rectangle(*self.get_bb_head())
+        #draw_rectangle(*self.get_bb_foot())
         for i in range(self.l):
             self.image.clip_draw(29, 110, 20, 31, self.x + k, self.y)
             k += 20

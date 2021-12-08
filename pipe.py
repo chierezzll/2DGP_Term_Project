@@ -18,7 +18,7 @@ class Pipe:
     def draw(self):
         k = 0
         #draw_rectangle(*self.get_bb_head())
-        draw_rectangle(*self.get_bb())
+        #draw_rectangle(*self.get_bb())
         if self.l == 0: # pipe의 y가 225
             self.image.clip_draw(84, 97, 52, 50, self.x, self.y)
         elif self.l == 1:       # pipe의 y가 285
