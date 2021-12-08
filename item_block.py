@@ -48,7 +48,7 @@ class Item_Block():
     def draw(self):
         # draw_rectangle(*self.get_bb_head())
         # draw_rectangle(*self.get_bb_foot())
-        draw_rectangle(*self.get_bb_item())
+        #draw_rectangle(*self.get_bb_item())
         k = 0
         if self.collision == 0:
             for i in range(self.l):

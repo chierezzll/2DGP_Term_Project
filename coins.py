@@ -30,7 +30,7 @@ class Coins:
 
     def draw(self):
         self.image.clip_draw(0 + int(self.frame) * 15, 16, 15, 16, self.x, self.y)
-        draw_rectangle(*self.get_bb())
+        #draw_rectangle(*self.get_bb())
 
     def get_bb(self):
         return self.x - 4, self.y - 12, self.x + 6, self.y + 12

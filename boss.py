@@ -63,11 +63,12 @@ class Boss:
             self.skill_ball()
             self.time3 = random.randint(1000, 2000)
 
-        # if self.life < 0:
-        #     game_world.remove_object(self)
-        #     self.clear_bgm.play()
-        #     time.sleep(8)
-        #     game_framework.quit()
+        if collision.collide(self, server.mario):
+            self.set_parent(server.mario)
+            if self.x > server.mario.x + 40 or self.x < server.mario.x - 40:
+                self.parent = None
+            if self.parent == server.mario:
+                server.state -= 0.005
 
     def skill(self):
         fire = Fire(self.x, self.y, self.dir)
@@ -78,10 +79,13 @@ class Boss:
         game_world.add_object(fire, 1)
 
     def draw(self):
-        draw_rectangle(*self.get_bb())
-        draw_rectangle(*self.get_bb_head())
-        debug_print('Dir:' + str(self.life))
+        #draw_rectangle(*self.get_bb())
+        #draw_rectangle(*self.get_bb_head())
+        #debug_print('Dir:' + str(self.life))
         if self.dir == 1:
             self.image.clip_draw(0 + int(self.frame) * 80, 30, 80, 80, self.x, self.y, 110, 110)
         else:
             self.image.clip_draw(0 + int(self.frame) * 80, 140, 80, 80, self.x, self.y, 110, 110)
+
+    def set_parent(self, mario):
+        self.parent = mario
