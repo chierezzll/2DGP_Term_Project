@@ -6,7 +6,7 @@ import game_framework
 import title_state
 import main_stage1_2
 import main_stage2_1
-
+import collision
 import game_world
 from mario import Mario
 from item_block import Item_Block
@@ -105,8 +105,11 @@ def resume():
 
 def update():
 
-    if server.mario.x > 1920:
+    if collision.collide(server.mario, server.castle):
         game_framework.change_state(main_stage2_1)
+
+    # if server.mario.x > 1920:
+    #     game_framework.change_state(main_stage2_1)
 
     for game_object in game_world.all_objects():
         game_object.update()

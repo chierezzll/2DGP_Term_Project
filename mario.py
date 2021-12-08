@@ -381,7 +381,7 @@ class Mario:
 
         self.parent = None
 
-        self.life = 1
+        self.life = 5
         self.coin = 0
 
         self.bgm = load_music('music_mariobgm.mp3')
@@ -426,8 +426,6 @@ class Mario:
             self.cur_state = next_state_table[self.cur_state][event]
             self.cur_state.enter(self, event)
 
-        # if self.jump == True:
-        #     self.jump_sound.play()
 
 
 #--------------발, 머리----------
