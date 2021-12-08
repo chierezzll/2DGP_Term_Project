@@ -276,6 +276,10 @@ class JumpState:
         if collision.collide_foot_head(mario, server.turtle3):
             mario.jumptime = 0.005
 
+        if collision.collide_foot_head(mario, server.boss):
+            mario.jumptime = 0.005
+            server.boss.life -= 0.05
+
 
     def draw(mario):
         if 1 <= mario.state < 2:
@@ -648,7 +652,7 @@ class Mario:
         #draw_rectangle(*self.get_bb())
         draw_rectangle(*self.get_bb_foot())
         draw_rectangle(*self.get_bb_head())
-        debug_print('Parent :' + str(self.parent) + ' Dir:' + str(self.dir) + '  State:' + str(self.cur_state) + ' mario.y : ' + str(self.y) + ' mario.x : ' + str(self.x))
+        #debug_print( 'Dir:' + str(self.dir) + '  State:' + str(self.cur_state) + ' mario.y : ' + str(self.y) + ' mario.x : ' + str(self.x))
 
         self.image_heart.draw(50, 1000, 70, 70)
         self.font.draw(100, 990, str(self.life), (0, 0, 0))

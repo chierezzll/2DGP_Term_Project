@@ -84,3 +84,8 @@ class Fire:
         if collision.collide(self, server.turtle3):
             game_world.remove_object(self)
             game_world.remove_object(server.turtle3)
+
+        if collision.collide(self, server.boss):
+            game_world.remove_object(self)
+            server.boss.life -= 1
+

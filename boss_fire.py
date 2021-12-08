@@ -1,6 +1,8 @@
 from pico2d import *
 import game_world
 import game_framework
+import collision
+import server
 
 PIXEL_PER_METER = (10.0 / 0.3)
 RUN_SPEED_KMPH = 50.0
@@ -31,7 +33,12 @@ class Fire:
             Fire.image = load_image('boss.png')
         self.x, self.y, self.velocity = x, y, velocity
 
+    def get_bb(self):
+        return self.x - 16, self.y - 12, self.x + 26, self.y + 5
+
+
     def draw(self):
+        draw_rectangle(*self.get_bb())
         if self.velocity > 0:
             #self.image.clip_draw(90 + int(self.frame) * 90, 0, 90, 40, self.x, self.y)
             self.image.clip_draw(70 + int(self.frame) * 90, 110, 80, 40, self.x, self.y)
@@ -46,6 +53,15 @@ class Fire:
         if self.x < 25 or self.x > 1920 - 25:
             game_world.remove_object(self)
 
+        if collision.collide(self, server.mario):
+            game_world.remove_object(self)
+            server.mario.state -= 1
+            if server.mario.state < 1:
+                server.mario.state = 1
+                server.mario.life -= 1
+                server.mario.x = 200
+                server.mario.y = 225
+
 class Fire_ball:
     image = None
 
@@ -56,8 +72,11 @@ class Fire_ball:
             Fire_ball.image = load_image('fire.png')
         self.x, self.y, self.velocity = x, y, velocity
 
+    def get_bb(self):
+        return self.x - 15, self.y - 12, self.x + 8, self.y + 13
+
     def draw(self):
-        # self.image.draw(self.x, self.y)
+        draw_rectangle(*self.get_bb())
         self.image.clip_draw(int(self.frame) * 17, 80, 15, 15, self.x, self.y, 25, 25)
 
     def update(self):
@@ -70,6 +89,15 @@ class Fire_ball:
             self.y -= JUMP_SPEED_PPS * game_framework.frame_time
 
         self.v -= 0.1
+
+        if collision.collide(self, server.mario):
+            game_world.remove_object(self)
+            server.mario.state -= 1
+            if server.mario.state < 1:
+                server.mario.state = 1
+                server.mario.life -= 1
+                server.mario.x = 200
+                server.mario.y = 225
 
         if self.y <= BOTTOM:
             self.v = 9.0

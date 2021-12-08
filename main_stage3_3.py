@@ -54,8 +54,11 @@ def enter():
     server.mario = Mario(200, 225)
     server.boss = Boss(1100, 240, random.randint(100, 200), 1)
 
+    server.item_block1 = Item_Block(100, 320, 1, 4)
+
     game_world.add_object(server.background3, 0)
     game_world.add_object(server.mario, 1)
+    game_world.add_object(server.item_block1, 1)
     game_world.add_object(server.tiles, 1)
     game_world.add_object(server.tiles_bottom, 1)
     game_world.add_object(server.boss, 1)
@@ -67,7 +70,6 @@ def enter():
     server.block3 = Block(11050, 450, 4)
     server.block4 = Block(11131, 310, 1)
     server.block5 = Block(11300, 310, 1)
-    server.item_block1 = Item_Block(11460, 310, 1, 1)
     server.item_block2 = Item_Block(11460, 310, 1, 1)
     server.item_block3 = Item_Block(11460, 310, 1, 1)
     server.item_block4 = Item_Block(31180, 430, 1, 1)
