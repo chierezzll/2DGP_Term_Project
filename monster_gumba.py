@@ -14,6 +14,7 @@ TIME_PER_ACTION = 0.5
 ACTION_PER_TIME = 1.0 / TIME_PER_ACTION
 FRAMES_PER_ACTION = 4
 
+TOP = 900
 
 class Monster_Gumba:
     def __init__(self, x, y, d, num):
@@ -65,14 +66,15 @@ class Monster_Gumba:
                 server.mario.state = 1
                 server.mario.life -= 1
                 server.mario.x = 50
-                server.mario.y = 500
+                server.mario.y = TOP
+        if 50 < server.mario.x < 60:
+            server.mario.y -= RUN_SPEED_PPS * 3
 
 
     def draw(self):
         k = 0
         #draw_rectangle(*self.get_bb())
         draw_rectangle(*self.get_bb_head())
-        debug_print('Parent :' + str(self.parent))
         if self.collision == 0:
             for i in range(self.num):
                 self.image.clip_draw(0 + int(self.frame) * 30, 0, 30, 30, self.x + k, self.y + 10, 50, 50)

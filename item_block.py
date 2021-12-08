@@ -25,6 +25,9 @@ class Item_Block():
         self.item = True
         self.frame = 0
 
+        self.coin_sound = load_wav('coin_sound.wav')
+        self.coin_sound.set_volume(10)
+
         self.dir = 1
         self.coin_y = self.y
 
@@ -70,20 +73,6 @@ class Item_Block():
                 if self.item == True:
                     self.image_item.clip_draw(32, 30, 16, 18, self.x + k - 3, self.item_y)
 
-        # if self.collision == 1:
-        #     self.image.clip_draw(31, 110, 17, 31, self.x + k - 2, self.y)
-        #     self.image_item.clip_draw(15, 30, 15, 16, self.x + k - 3, self.item_y)  # 초록 버섯 출현
-        #
-        # if self.collision == 1:    # 빨간 버섯 출현
-        #     self.image.clip_draw(31, 110, 17, 31, self.x + k - 2, self.y)
-        #     if self.item == True:
-        #         self.image_item.clip_draw(0, 30, 15, 16, self.x + k - 3, self.item_y)
-        #
-        # if self.collision == 1:       # 꽃 출현
-        #     self.image.clip_draw(31, 110, 17, 31, self.x + k - 2, self.y)
-        #     if self.item == True:
-        #         self.image_item.clip_draw(32, 30, 16, 18, self.x + k - 3, self.item_y)
-
     def update(self):
         self.frame = (self.frame + FRAMES_PER_ACTION * ACTION_PER_TIME * game_framework.frame_time) % 4
 
@@ -94,6 +83,12 @@ class Item_Block():
             self.coin_y += RUN_SPEED_PPS * self.dir
             if self.item_y < self.y + 22:
                 self.item_y += (RUN_SPEED_PPS / 2) * self.dir
+
+            if self.type == 1:
+                if self.item == True:
+                    server.mario.coin += 1
+                    self.coin_sound.play()
+                    self.item = False
 
             if self.type == 3:      # 빨간 버섯
                 if collision.collide_item(self, server.mario):

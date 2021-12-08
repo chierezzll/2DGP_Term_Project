@@ -4,6 +4,7 @@ import game_world
 from fire import Fire
 import server
 import collision
+import time
 BOTTOM = 225
 
 PIXEL_PER_METER = (10.0 / 0.3)
@@ -130,7 +131,6 @@ class JumpState:
         mario.jump = True
 
 
-
     def exit(mario, event):
         if event == Z:
             mario.skill()
@@ -141,6 +141,7 @@ class JumpState:
         mario.x = clamp(25, mario.x, 1950)
 
         if mario.jump == True:
+            mario.jump_sound.play()
             mario.jumptime += game_framework.frame_time
             mario.y += JUMP_SPEED_PPS * mario.jumptime + (GRAVITY_PPS * mario.jumptime ** 2 / 2)
 
@@ -380,15 +381,21 @@ class Mario:
 
         self.parent = None
 
-        self.life = 5
+        self.life = 1
         self.coin = 0
 
         self.bgm = load_music('music_mariobgm.mp3')
-        self.bgm.set_volume(30)
+        self.bgm.set_volume(10)
         self.bgm.repeat_play()
 
         self.jump_sound = load_wav('music_jump.wav')
         self.jump_sound.set_volume(1)
+
+        self.coin_sound = load_wav('coin_sound.wav')
+        self.coin_sound.set_volume(10)
+
+        self.life_lost = load_wav('life_lost.wav')
+        self.life_lost.set_volume(10)
 
     def add_event(self, event):
         self.event_que.insert(0, event)
@@ -419,8 +426,8 @@ class Mario:
             self.cur_state = next_state_table[self.cur_state][event]
             self.cur_state.enter(self, event)
 
-        if self.jump == True:
-            self.jump_sound.play()
+        # if self.jump == True:
+        #     self.jump_sound.play()
 
 
 #--------------발, 머리----------
@@ -623,6 +630,11 @@ class Mario:
         if collision.collide_head_foot(self, server.air_tile9):
             self.add_event(O)
 
+        if self.life == 0:
+            self.bgm.stop()
+            self.life_lost.play()
+            time.sleep(3)
+            game_framework.quit()
 
 
     def skill(self):
@@ -638,7 +650,7 @@ class Mario:
         #draw_rectangle(*self.get_bb())
         draw_rectangle(*self.get_bb_foot())
         draw_rectangle(*self.get_bb_head())
-        debug_print('Parent :' + str(self.parent) + ' Dir:' + str(self.dir) + '  State:' + str(self.cur_state) + ' mario.y : ' + str(self.y))
+        debug_print('Parent :' + str(self.parent) + ' Dir:' + str(self.dir) + '  State:' + str(self.cur_state) + ' mario.y : ' + str(self.y) + ' mario.x : ' + str(self.x))
 
         self.image_heart.draw(50, 1000, 70, 70)
         self.font.draw(100, 990, str(self.life), (0, 0, 0))

@@ -15,11 +15,18 @@ class Coins:
         self.x = x
         self.y = y
 
+        self.coin_sound = load_wav('coin_sound.wav')
+        self.coin_sound.set_volume(10)
+
+
     def update(self):
         self.frame = (self.frame + FRAMES_PER_ACTION * ACTION_PER_TIME * game_framework.frame_time) % 4
+
         if collision.collide(self, server.mario):
+            self.coin_sound.play()
             game_world.remove_object(self)
             server.mario.coin += 1
+
 
     def draw(self):
         self.image.clip_draw(0 + int(self.frame) * 15, 16, 15, 16, self.x, self.y)
