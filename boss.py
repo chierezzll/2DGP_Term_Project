@@ -31,7 +31,7 @@ class Boss:
         self.frame = 0
         self.boss_bgm = load_music('music_bossbgm.mp3')
         self.boss_bgm.set_volume(15)
-        self.boss_bgm.repeat_play()
+        #self.boss_bgm.repeat_play()
         self.clear_bgm = load_music('clear.mp3')
         self.clear_bgm.set_volume(10)
 
@@ -63,12 +63,11 @@ class Boss:
             self.skill_ball()
             self.time3 = random.randint(1000, 2000)
 
-        if self.life < 0:
-            game_world.remove_object(self)
-            self.boss_bgm.stop()
-            self.clear_bgm.play()
-            time.sleep(8)
-            game_framework.quit()
+        # if self.life < 0:
+        #     game_world.remove_object(self)
+        #     self.clear_bgm.play()
+        #     time.sleep(8)
+        #     game_framework.quit()
 
     def skill(self):
         fire = Fire(self.x, self.y, self.dir)
