@@ -34,7 +34,7 @@ class Fire:
         return self.x - 15, self.y - 22, self.x + 8, self.y - 3
 
     def draw(self):
-        draw_rectangle(*self.get_bb())
+        #draw_rectangle(*self.get_bb())
         self.image.clip_draw(int(self.frame) * 17, 80, 15, 15, self.x, self.y - 15, 25, 25)
 
     def update(self):

@@ -66,8 +66,8 @@ class Monster_Gumba:
             if server.state < 1:
                 server.state = 1
                 server.life -= 1
-                server.mario.x = 50
-                server.mario.y = TOP
+                server.mario.x = 70
+                server.mario.y = 225
         if 50 < server.mario.x < 60:
             server.mario.y -= RUN_SPEED_PPS * 3
 
